@@ -81,48 +81,16 @@ class _LoginButton extends StatelessWidget {
       builder: (context, state) {
         return state.status.isInProgress
             ? const CircularProgressIndicator()
-            : SizedBox(
-                width: 200,
-                height: 50,
-                child: Button(
-                  key: const Key('loginForm_passwordInput_textField'),
-                  onPressed: state.isValid
-                      ? () {
-                          context.read<LoginBloc>().add(const LoginSubmitted());
-                        }
-                      : null,
-                  label: 'Log In',
-                ),
+            : Button(
+                key: const Key('loginForm_passwordInput_textField'),
+                onPressed: state.isValid
+                    ? () {
+                        context.read<LoginBloc>().add(const LoginSubmitted());
+                      }
+                    : null,
+                label: 'Log In',
               );
       },
-    );
-  }
-}
-
-class Button extends StatelessWidget {
-  const Button({
-    super.key,
-    required this.onPressed,
-    required this.label,
-  });
-
-  final Function()? onPressed;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize,
-        ),
-      ),
     );
   }
 }
