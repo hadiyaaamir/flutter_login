@@ -1,17 +1,40 @@
 part of 'view.dart';
 
-class LoginApp extends StatelessWidget {
+class LoginApp extends StatefulWidget {
   const LoginApp({super.key});
 
   @override
+  State<LoginApp> createState() => _LoginAppState();
+}
+
+class _LoginAppState extends State<LoginApp> {
+  late final AuthenticationRepository _authenticationRepository;
+  late final UserRepository _userRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    _authenticationRepository = AuthenticationRepository();
+    _userRepository = UserRepository();
+  }
+
+  @override
+  void dispose() {
+    _authenticationRepository.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Login App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return RepositoryProvider.value(
+      value: _authenticationRepository,
+      child: BlocProvider(
+        create: (_) => AuthenticationBloc(
+          authenticationRepository: _authenticationRepository,
+          userRepository: _userRepository,
+        ),
+        child: const LoginAppView(),
       ),
-      home: const Placeholder(),
     );
   }
 }
