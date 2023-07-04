@@ -17,7 +17,7 @@ class _LoginAppViewState extends State<LoginAppView> {
       navigatorKey: _navigatorKey,
       title: 'Flutter Login App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
       ),
       builder: (context, child) {
