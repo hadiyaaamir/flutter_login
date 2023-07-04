@@ -6,16 +6,19 @@ class CustomTextField extends StatelessWidget {
     required this.label,
     required this.errorText,
     required this.onChanged,
+    this.obsecureText = false,
   });
 
   final String label;
   final String? errorText;
   final Function(String) onChanged;
+  final bool obsecureText;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       onChanged: onChanged,
+      obscureText: obsecureText,
       decoration: InputDecoration(
         labelText: label,
         errorText: errorText,
