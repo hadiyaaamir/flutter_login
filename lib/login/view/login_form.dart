@@ -33,17 +33,18 @@ class _UsernameInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        labelText: 'Username',
-        errorText: null,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(
-              width: 3, color: Theme.of(context).colorScheme.primary),
-        ),
-        // state.username.displayError != null ? 'invalid username' : null,
-      ),
+    return BlocBuilder<LoginBloc, LoginState>(
+      buildWhen: (previous, current) => previous.username != current.username,
+      builder: (context, state) {
+        return CustomTextField(
+          key: const Key('loginForm_usernameInput_textField'),
+          label: 'Username',
+          errorText:
+              state.username.displayError != null ? 'invalid username' : null,
+          onChanged: (username) =>
+              context.read<LoginBloc>().add(LoginUsernameChanged(username)),
+        );
+      },
     );
   }
 }
