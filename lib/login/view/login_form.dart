@@ -23,6 +23,7 @@ class LoginForm extends StatelessWidget {
           _PasswordInput(),
           SizedBox(height: 40),
           _LoginButton(),
+          SizedBox(height: 40),
         ],
       ),
     );
