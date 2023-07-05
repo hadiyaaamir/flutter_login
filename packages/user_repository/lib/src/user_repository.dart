@@ -9,7 +9,13 @@ class UserRepository {
 
     return Future.delayed(
       const Duration(milliseconds: 300),
-      () => _user = User(id: const Uuid().v4()),
+      () => _user = User(
+        id: const Uuid().v4(),
+        firstName: 'Hadiya',
+        lastName: 'Aamir',
+        email: 'h.aamir@gmail.com',
+        designation: 'Intern',
+      ),
     );
   }
 }
