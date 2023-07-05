@@ -14,7 +14,7 @@ class _LoginAppState extends State<LoginApp> {
   @override
   void initState() {
     super.initState();
-    _authenticationRepository = AuthenticationRepository();
+    _authenticationRepository = AuthenticationRepositoryHardcoded();
     _userRepository = UserRepository();
   }
 
