@@ -16,7 +16,7 @@ class User extends Equatable {
   final String designation;
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, firstName, lastName, email, designation];
 
   static const empty = User(
     id: '-',
@@ -25,4 +25,24 @@ class User extends Equatable {
     email: '',
     designation: '',
   );
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['id'] = id;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['email'] = email;
+    data['designation'] = designation;
+    return data;
+  }
+
+  static User fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      email: json['email'],
+      designation: json['designation'],
+    );
+  }
 }

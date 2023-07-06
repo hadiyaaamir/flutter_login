@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 part 'authentication_hardcoded.dart';
+part 'authentication_firebase.dart';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
