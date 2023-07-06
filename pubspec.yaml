@@ -20,6 +20,8 @@ dependencies:
   firebase_core: ^2.1.0
   user_repository:
     path: packages/user_repository
+  form_inputs:
+    path: packages/form_inputs
   
 
 

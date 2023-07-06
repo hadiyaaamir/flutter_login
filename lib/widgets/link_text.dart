@@ -4,7 +4,7 @@ class LinkText extends StatelessWidget {
   const LinkText({
     super.key,
     required this.text,
-    required this.boldText,
+    this.boldText = '',
     required this.onTap,
   });
 

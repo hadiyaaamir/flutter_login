@@ -1,4 +1,4 @@
-part of 'model.dart';
+import 'package:formz/formz.dart';
 
 enum PasswordValidationError { empty, invalid }
 

@@ -68,7 +68,7 @@ class _LoginButton extends StatelessWidget {
 }
 
 class _LoginLink extends StatelessWidget {
-  const _LoginLink({super.key});
+  const _LoginLink();
 
   @override
   Widget build(BuildContext context) {
