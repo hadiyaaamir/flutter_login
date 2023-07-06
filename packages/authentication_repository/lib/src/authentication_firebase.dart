@@ -12,6 +12,19 @@ class AuthenticationRepositoryFirebase extends AuthenticationRepository {
     yield* _controller.stream;
   }
 
+  Future<void> signUp({required String email, required String password}) async {
+    try {
+      await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      // throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
+    } catch (_) {
+      // throw const SignUpWithEmailAndPasswordFailure();
+    }
+  }
+
   @override
   Future<void> logIn({required String email, required String password}) async {
     try {
@@ -22,10 +35,12 @@ class AuthenticationRepositoryFirebase extends AuthenticationRepository {
       )
           .then(
         (value) {
-          print('signed in: $value');
           _controller.add(AuthenticationStatus.authenticated);
         },
       );
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      // throw LogInWithEmailAndPasswordFailure.fromCode(e.code);
+      print(e);
     } catch (e) {
       _controller.add(AuthenticationStatus.unauthenticated);
       print(e);

@@ -23,7 +23,9 @@ class LoginForm extends StatelessWidget {
           _PasswordInput(),
           SizedBox(height: 40),
           _LoginButton(),
-          SizedBox(height: 40),
+          SizedBox(height: 20),
+          _SignupLink(),
+          SizedBox(height: 20),
         ],
       ),
     );
@@ -91,6 +93,19 @@ class _LoginButton extends StatelessWidget {
                 label: 'Log In',
               );
       },
+    );
+  }
+}
+
+class _SignupLink extends StatelessWidget {
+  const _SignupLink({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return LinkText(
+      text: 'Don\'t have an account? ',
+      boldText: 'Sign Up',
+      onTap: () => Navigator.pushReplacement(context, SignupPage.route()),
     );
   }
 }
