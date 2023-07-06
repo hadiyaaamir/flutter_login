@@ -19,16 +19,18 @@ final class SignupState extends Equatable {
     FormzSubmissionStatus? status,
     Email? email,
     Password? password,
+    ConfirmedPassword? confirmedPassword,
     bool? isValid,
   }) {
     return SignupState(
       status: status ?? this.status,
       email: email ?? this.email,
       password: password ?? this.password,
+      confirmedPassword: confirmedPassword ?? this.confirmedPassword,
       isValid: isValid ?? this.isValid,
     );
   }
 
   @override
-  List<Object> get props => [status, email, password];
+  List<Object> get props => [status, email, password, confirmedPassword];
 }
