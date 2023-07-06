@@ -45,10 +45,12 @@ class AuthenticationBloc
         return emit(const AuthenticationState.unknown());
 
       case AuthenticationStatus.unauthenticated:
+        print('unauthenticated user');
         return emit(const AuthenticationState.unauthenticated());
 
       case AuthenticationStatus.authenticated:
         final user = await _tryGetUser();
+        print('authenticated user: $user');
         return emit(
           user != null
               ? AuthenticationState.authenticated(user)

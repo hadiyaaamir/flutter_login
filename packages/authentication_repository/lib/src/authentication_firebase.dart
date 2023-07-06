@@ -13,21 +13,22 @@ class AuthenticationRepositoryFirebase extends AuthenticationRepository {
   }
 
   @override
-  void dispose() => _controller.close();
-
-  @override
   Future<void> logIn(
       {required String username, required String password}) async {
     try {
       await _firebaseAuth
           .signInWithEmailAndPassword(
-            email: username,
-            password: password,
-          )
+        email: username,
+        password: password,
+      )
           .then(
-              (_) => () => _controller.add(AuthenticationStatus.authenticated));
+        (value) {
+          print('signed in: $value');
+          _controller.add(AuthenticationStatus.authenticated);
+        },
+      );
     } catch (e) {
-      () => _controller.add(AuthenticationStatus.unauthenticated);
+      _controller.add(AuthenticationStatus.unauthenticated);
       print(e);
     }
   }
@@ -36,10 +37,12 @@ class AuthenticationRepositoryFirebase extends AuthenticationRepository {
     try {
       await Future.wait([
         _firebaseAuth.signOut(),
-      ]).then(
-          (_) => () => _controller.add(AuthenticationStatus.unauthenticated));
+      ]).then((_) => _controller.add(AuthenticationStatus.unauthenticated));
     } catch (e) {
       print(e);
     }
   }
+
+  @override
+  void dispose() => _controller.close();
 }
