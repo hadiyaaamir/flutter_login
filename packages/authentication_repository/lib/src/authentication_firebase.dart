@@ -20,6 +20,7 @@ class AuthenticationRepositoryFirebase extends AuthenticationRepository {
       );
     } on firebase_auth.FirebaseAuthException catch (e) {
       // throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
+      print(e);
     } catch (_) {
       // throw const SignUpWithEmailAndPasswordFailure();
     }

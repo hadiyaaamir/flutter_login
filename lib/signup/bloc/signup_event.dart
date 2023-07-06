@@ -23,8 +23,8 @@ final class SignupPasswordChanged extends SignupEvent {
   List<Object> get props => [password];
 }
 
-final class ConfirmedPasswordChanged extends SignupEvent {
-  const ConfirmedPasswordChanged(this.confirmedPassword);
+final class SignupConfirmedPasswordChanged extends SignupEvent {
+  const SignupConfirmedPasswordChanged(this.confirmedPassword);
   final String confirmedPassword;
 
   @override

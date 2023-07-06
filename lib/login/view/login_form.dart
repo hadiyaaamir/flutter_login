@@ -44,8 +44,8 @@ class _EmailInput extends StatelessWidget {
           key: const Key('loginForm_emailInput_textField'),
           label: 'Email',
           errorText: state.email.displayError != null ? 'invalid email' : null,
-          onChanged: (username) =>
-              context.read<LoginBloc>().add(LoginEmailChanged(username)),
+          onChanged: (email) =>
+              context.read<LoginBloc>().add(LoginEmailChanged(email)),
         );
       },
     );

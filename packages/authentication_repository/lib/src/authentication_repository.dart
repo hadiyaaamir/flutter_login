@@ -10,6 +10,7 @@ abstract class AuthenticationRepository {
   Stream<AuthenticationStatus> get status;
 
   Future<void> logIn({required String email, required String password});
+  Future<void> signUp({required String email, required String password});
 
   void logOut();
   void dispose();

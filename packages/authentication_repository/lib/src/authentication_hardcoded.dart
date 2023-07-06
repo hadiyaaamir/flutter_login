@@ -24,4 +24,10 @@ class AuthenticationRepositoryHardcoded implements AuthenticationRepository {
   }
 
   void dispose() => _controller.close();
+
+  @override
+  Future<void> signUp({required String email, required String password}) {
+    // TODO: implement signUp
+    throw UnimplementedError();
+  }
 }
