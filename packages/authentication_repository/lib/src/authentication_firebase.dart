@@ -13,12 +13,11 @@ class AuthenticationRepositoryFirebase extends AuthenticationRepository {
   }
 
   @override
-  Future<void> logIn(
-      {required String username, required String password}) async {
+  Future<void> logIn({required String email, required String password}) async {
     try {
       await _firebaseAuth
           .signInWithEmailAndPassword(
-        email: username,
+        email: email,
         password: password,
       )
           .then(

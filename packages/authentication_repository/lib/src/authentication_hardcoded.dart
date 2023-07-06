@@ -10,7 +10,7 @@ class AuthenticationRepositoryHardcoded implements AuthenticationRepository {
   }
 
   Future<void> logIn({
-    required String username,
+    required String email,
     required String password,
   }) async {
     await Future.delayed(

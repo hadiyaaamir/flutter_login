@@ -1,4 +1,4 @@
 import 'package:formz/formz.dart';
 
-part 'username.dart';
+part 'email.dart';
 part 'password.dart';

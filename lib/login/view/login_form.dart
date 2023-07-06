@@ -18,7 +18,7 @@ class LoginForm extends StatelessWidget {
       child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _UsernameInput(),
+          _EmailInput(),
           SizedBox(height: 20),
           _PasswordInput(),
           SizedBox(height: 40),
@@ -30,21 +30,20 @@ class LoginForm extends StatelessWidget {
   }
 }
 
-class _UsernameInput extends StatelessWidget {
-  const _UsernameInput();
+class _EmailInput extends StatelessWidget {
+  const _EmailInput();
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
-      buildWhen: (previous, current) => previous.username != current.username,
+      buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return CustomTextField(
-          key: const Key('loginForm_usernameInput_textField'),
-          label: 'Username',
-          errorText:
-              state.username.displayError != null ? 'invalid username' : null,
+          key: const Key('loginForm_emailInput_textField'),
+          label: 'Email',
+          errorText: state.email.displayError != null ? 'invalid email' : null,
           onChanged: (username) =>
-              context.read<LoginBloc>().add(LoginUsernameChanged(username)),
+              context.read<LoginBloc>().add(LoginEmailChanged(username)),
         );
       },
     );
@@ -83,7 +82,7 @@ class _LoginButton extends StatelessWidget {
         return state.status.isInProgress
             ? const CircularProgressIndicator()
             : Button(
-                key: const Key('loginForm_passwordInput_textField'),
+                key: const Key('loginForm_button'),
                 onPressed: state.isValid
                     ? () {
                         context.read<LoginBloc>().add(const LoginSubmitted());
