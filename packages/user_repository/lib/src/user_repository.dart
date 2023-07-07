@@ -7,4 +7,5 @@ part 'user_firebase.dart';
 
 abstract class UserRepository {
   Future<User?> getUser();
+  updateUser(User user);
 }

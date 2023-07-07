@@ -17,4 +17,10 @@ class UserRepositoryHardcoded extends UserRepository {
       ),
     );
   }
+
+  @override
+  Future<void> updateUser(User user) {
+    // TODO: implement updateUser
+    throw UnimplementedError();
+  }
 }
