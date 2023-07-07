@@ -14,8 +14,8 @@ class _LoginAppState extends State<LoginApp> {
   @override
   void initState() {
     super.initState();
-    _authenticationRepository = AuthenticationRepository();
-    _userRepository = UserRepository();
+    _authenticationRepository = AuthenticationRepositoryFirebase();
+    _userRepository = UserRepositoryFirebase();
   }
 
   @override

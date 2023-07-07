@@ -18,33 +18,34 @@ class LoginForm extends StatelessWidget {
       child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _UsernameInput(),
+          _EmailInput(),
           SizedBox(height: 20),
           _PasswordInput(),
           SizedBox(height: 40),
           _LoginButton(),
-          SizedBox(height: 40),
+          SizedBox(height: 20),
+          _SignupLink(),
+          SizedBox(height: 20),
         ],
       ),
     );
   }
 }
 
-class _UsernameInput extends StatelessWidget {
-  const _UsernameInput();
+class _EmailInput extends StatelessWidget {
+  const _EmailInput();
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
-      buildWhen: (previous, current) => previous.username != current.username,
+      buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return CustomTextField(
-          key: const Key('loginForm_usernameInput_textField'),
-          label: 'Username',
-          errorText:
-              state.username.displayError != null ? 'invalid username' : null,
-          onChanged: (username) =>
-              context.read<LoginBloc>().add(LoginUsernameChanged(username)),
+          key: const Key('loginForm_emailInput_textField'),
+          label: 'Email',
+          errorText: state.email.displayError != null ? 'invalid email' : null,
+          onChanged: (email) =>
+              context.read<LoginBloc>().add(LoginEmailChanged(email)),
         );
       },
     );
@@ -83,7 +84,7 @@ class _LoginButton extends StatelessWidget {
         return state.status.isInProgress
             ? const CircularProgressIndicator()
             : Button(
-                key: const Key('loginForm_passwordInput_textField'),
+                key: const Key('loginForm_button'),
                 onPressed: state.isValid
                     ? () {
                         context.read<LoginBloc>().add(const LoginSubmitted());
@@ -92,6 +93,19 @@ class _LoginButton extends StatelessWidget {
                 label: 'Log In',
               );
       },
+    );
+  }
+}
+
+class _SignupLink extends StatelessWidget {
+  const _SignupLink();
+
+  @override
+  Widget build(BuildContext context) {
+    return LinkText(
+      text: 'Don\'t have an account? ',
+      boldText: 'Sign Up',
+      onTap: () => Navigator.pushReplacement(context, SignupPage.route()),
     );
   }
 }

@@ -1,15 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:user_repository/src/models/models.dart';
-import 'package:uuid/uuid.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
-class UserRepository {
-  User? _user;
+part 'user_hardcoded.dart';
+part 'user_firebase.dart';
 
-  Future<User?> getUser() async {
-    if (_user != null) return _user;
-
-    return Future.delayed(
-      const Duration(milliseconds: 300),
-      () => _user = User(id: const Uuid().v4()),
-    );
-  }
+abstract class UserRepository {
+  Future<User?> getUser();
 }
