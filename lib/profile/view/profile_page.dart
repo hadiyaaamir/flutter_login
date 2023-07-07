@@ -11,6 +11,17 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Create Profile'), centerTitle: true),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: BlocProvider(
+          create: (context) {
+            return ProfileBloc(
+              userRepository: RepositoryProvider.of<UserRepository>(context),
+            );
+          },
+          child: const ProfileForm(),
+        ),
+      ),
     );
   }
 }

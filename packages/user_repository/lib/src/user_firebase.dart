@@ -8,7 +8,7 @@ class UserRepositoryFirebase extends UserRepository {
   final usersCollection = FirebaseFirestore.instance.collection("Users");
 
   Future<User?> getUser() async {
-    // if (_user != null) return _user;
+    if (_user != null) return _user;
 
     final String? email = _firebaseAuth.currentUser?.email;
     final String? userId = _firebaseAuth.currentUser?.uid;
@@ -18,7 +18,7 @@ class UserRepositoryFirebase extends UserRepository {
         if (snapshot.exists) {
           _user = User.fromJson(snapshot.data()!);
         } else if (userId != null) {
-          await CreateUser(userId: userId, email: email);
+          await createUser(userId: userId, email: email);
         }
       });
       return _user;
@@ -27,13 +27,11 @@ class UserRepositoryFirebase extends UserRepository {
     return _user = null;
   }
 
-  Future<void> CreateUser({
+  Future<void> createUser({
     required String userId,
     required String email,
   }) async {
-    User user = User.empty.copyWith(
-      email: email,
-    );
+    User user = User.empty.copyWith(email: email);
 
     await usersCollection
         .doc(userId)
@@ -50,6 +48,8 @@ class UserRepositoryFirebase extends UserRepository {
     await usersCollection
         .doc(userId)
         .update(updatedUser.toJson())
-        .then((_) => _user = updatedUser);
+        .then((value) => _user = updatedUser);
   }
+
+  void refreshUser() => _user = null;
 }
