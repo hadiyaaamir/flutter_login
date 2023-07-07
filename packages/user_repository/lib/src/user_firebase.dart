@@ -30,15 +30,9 @@ class UserRepositoryFirebase extends UserRepository {
   Future<void> CreateUser({
     required String userId,
     required String email,
-    String? firstName,
-    String? lastName,
-    String? designation,
   }) async {
     User user = User.empty.copyWith(
       email: email,
-      firstName: firstName,
-      lastName: lastName,
-      designation: designation,
     );
 
     await usersCollection.doc(userId).set(user.toJson()).then((_) {

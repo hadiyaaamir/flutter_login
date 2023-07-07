@@ -37,6 +37,8 @@ class User extends Equatable {
     designation: '',
   );
 
+  bool get profileCreated => this != empty.copyWith(email: this.email);
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
 
