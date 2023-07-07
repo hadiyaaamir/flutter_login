@@ -15,7 +15,7 @@ class ProfileForm extends StatelessWidget {
             );
         }
         if (state.status.isSuccess) {
-          Navigator.pushReplacement(context, HomePage.route());
+          context.read<AuthenticationBloc>().add(AuthenticationUserChanged());
         }
       },
       child: const Center(

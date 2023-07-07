@@ -14,4 +14,6 @@ abstract class AuthenticationRepository {
 
   void logOut();
   void dispose();
+
+  firebase_auth.User? get currentAuthUser;
 }

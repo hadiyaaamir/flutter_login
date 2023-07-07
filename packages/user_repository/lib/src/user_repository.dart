@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:user_repository/src/models/models.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-
 part 'user_hardcoded.dart';
 part 'user_firebase.dart';
 
 abstract class UserRepository {
-  Future<User?> getUser();
-  Future<void> updateUser(User user);
+  Future<User?> getUser({String? userId, String? email});
+  Future<void> updateUser({required String userId, required User user});
+  Future<void> createUser({required String userId, required User user});
+
   void refreshUser();
 }

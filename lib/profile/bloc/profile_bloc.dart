@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_login/profile/model/model.dart';
@@ -8,8 +9,11 @@ part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc({required UserRepository userRepository})
-      : _userRepository = userRepository,
+  ProfileBloc({
+    required UserRepository userRepository,
+    required AuthenticationRepository authenticationRepository,
+  })  : _userRepository = userRepository,
+        _authenticationRepository = authenticationRepository,
         super(const ProfileState()) {
     on<ProfileFirstNameChanged>(_onFirstNameChanged);
     on<ProfileLastNameChanged>(_onLastNameChanged);
@@ -18,6 +22,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   final UserRepository _userRepository;
+  final AuthenticationRepository _authenticationRepository;
 
   void _onFirstNameChanged(
     ProfileFirstNameChanged event,
@@ -67,12 +72,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       try {
         await _userRepository
-            .updateUser(User.empty.copyWith(
-              firstName: state.firstName.value,
-              lastName: state.lastName.value,
-              designation: state.designation.value,
-            ))
-            .then((_) =>
+            .createUser(
+                userId: _authenticationRepository.currentAuthUser!.uid,
+                user: User(
+                  firstName: state.firstName.value,
+                  lastName: state.lastName.value,
+                  email: _authenticationRepository.currentAuthUser!.email!,
+                  designation: state.designation.value,
+                ))
+            .then((value) =>
                 emit(state.copyWith(status: FormzSubmissionStatus.success)));
       } catch (_) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));

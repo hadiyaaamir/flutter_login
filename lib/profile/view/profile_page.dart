@@ -16,6 +16,8 @@ class ProfilePage extends StatelessWidget {
         child: BlocProvider(
           create: (context) {
             return ProfileBloc(
+              authenticationRepository:
+                  RepositoryProvider.of<AuthenticationRepository>(context),
               userRepository: RepositoryProvider.of<UserRepository>(context),
             );
           },
