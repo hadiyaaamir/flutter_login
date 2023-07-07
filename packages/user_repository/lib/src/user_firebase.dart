@@ -35,8 +35,21 @@ class UserRepositoryFirebase extends UserRepository {
       email: email,
     );
 
-    await usersCollection.doc(userId).set(user.toJson()).then((_) {
-      _user = user;
-    });
+    await usersCollection
+        .doc(userId)
+        .set(user.toJson())
+        .then((_) => _user = user);
+  }
+
+  @override
+  Future<void> updateUser(User user) async {
+    final String? email = _firebaseAuth.currentUser?.email;
+    final String? userId = _firebaseAuth.currentUser?.uid;
+
+    User updatedUser = user.copyWith(email: email);
+    await usersCollection
+        .doc(userId)
+        .update(updatedUser.toJson())
+        .then((_) => _user = updatedUser);
   }
 }
