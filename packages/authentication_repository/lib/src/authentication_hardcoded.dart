@@ -30,4 +30,8 @@ class AuthenticationRepositoryHardcoded implements AuthenticationRepository {
     // TODO: implement signUp
     throw UnimplementedError();
   }
+
+  @override
+  // TODO: implement currentAuthUser
+  firebase_auth.User? get currentAuthUser => throw UnimplementedError();
 }

@@ -3,7 +3,7 @@ part of 'user_repository.dart';
 class UserRepositoryHardcoded extends UserRepository {
   User? _user;
 
-  Future<User?> getUser() async {
+  Future<User?> getUser({String? userId, String? email}) async {
     if (_user != null) return _user;
 
     return Future.delayed(
@@ -19,7 +19,7 @@ class UserRepositoryHardcoded extends UserRepository {
   }
 
   @override
-  Future<void> updateUser(User user) {
+  Future<void> updateUser({required User user, required String userId}) {
     // TODO: implement updateUser
     throw UnimplementedError();
   }
@@ -27,5 +27,11 @@ class UserRepositoryHardcoded extends UserRepository {
   @override
   void refreshUser() {
     _user = null;
+  }
+
+  @override
+  Future<void> createUser({required String userId, required User user}) {
+    // TODO: implement createUser
+    throw UnimplementedError();
   }
 }

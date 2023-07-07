@@ -68,4 +68,7 @@ class AuthenticationRepositoryFirebase extends AuthenticationRepository {
 
   @override
   void dispose() => _controller.close();
+
+  @override
+  firebase_auth.User? get currentAuthUser => _firebaseAuth.currentUser ?? null;
 }
