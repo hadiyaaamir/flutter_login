@@ -8,7 +8,7 @@ part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc(UserRepository userRepository)
+  ProfileBloc({required UserRepository userRepository})
       : _userRepository = userRepository,
         super(const ProfileState()) {
     on<ProfileFirstNameChanged>(_onFirstNameChanged);
@@ -39,7 +39,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final lastName = Name.dirty(event.lastName);
     emit(
       state.copyWith(
-        firstName: lastName,
+        lastName: lastName,
         isValid: Formz.validate([state.firstName, lastName, state.designation]),
       ),
     );
@@ -66,12 +66,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
 
       try {
-        await _userRepository.updateUser(User.empty.copyWith(
-          firstName: state.firstName.value,
-          lastName: state.lastName.value,
-          designation: state.designation.value,
-        ));
-        emit(state.copyWith(status: FormzSubmissionStatus.success));
+        await _userRepository
+            .updateUser(User.empty.copyWith(
+              firstName: state.firstName.value,
+              lastName: state.lastName.value,
+              designation: state.designation.value,
+            ))
+            .then((_) =>
+                emit(state.copyWith(status: FormzSubmissionStatus.success)));
       } catch (_) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
       }

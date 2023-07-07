@@ -23,4 +23,9 @@ class UserRepositoryHardcoded extends UserRepository {
     // TODO: implement updateUser
     throw UnimplementedError();
   }
+
+  @override
+  void refreshUser() {
+    _user = null;
+  }
 }
