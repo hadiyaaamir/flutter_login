@@ -2,24 +2,35 @@ import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
   const User({
-    required this.id,
     required this.firstName,
     required this.lastName,
     required this.email,
     required this.designation,
   });
 
-  final String id;
   final String firstName;
   final String lastName;
   final String email;
   final String designation;
 
   @override
-  List<Object?> get props => [id, firstName, lastName, email, designation];
+  List<Object?> get props => [firstName, lastName, email, designation];
+
+  User copyWith({
+    String? email,
+    String? firstName,
+    String? lastName,
+    String? designation,
+  }) {
+    return User(
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      email: email ?? this.email,
+      designation: designation ?? this.designation,
+    );
+  }
 
   static const empty = User(
-    id: '-',
     firstName: '',
     lastName: '',
     email: '',
@@ -28,7 +39,7 @@ class User extends Equatable {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['id'] = id;
+
     data['firstName'] = firstName;
     data['lastName'] = lastName;
     data['email'] = email;
@@ -38,7 +49,6 @@ class User extends Equatable {
 
   static User fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
       firstName: json['firstName'],
       lastName: json['lastName'],
       email: json['email'],

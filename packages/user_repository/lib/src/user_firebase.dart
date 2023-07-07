@@ -8,22 +8,41 @@ class UserRepositoryFirebase extends UserRepository {
   final usersCollection = FirebaseFirestore.instance.collection("Users");
 
   Future<User?> getUser() async {
-    if (_user != null) return _user;
+    // if (_user != null) return _user;
 
     final String? email = _firebaseAuth.currentUser?.email;
+    final String? userId = _firebaseAuth.currentUser?.uid;
 
     if (email != null) {
-      await usersCollection
-          .where('email', isEqualTo: email)
-          .get()
-          .then((snapshot) {
-        if (snapshot.docs.isNotEmpty) {
-          _user = User.fromJson(snapshot.docs.first.data());
+      await usersCollection.doc(userId).get().then((snapshot) async {
+        if (snapshot.exists) {
+          _user = User.fromJson(snapshot.data()!);
+        } else if (userId != null) {
+          await CreateUser(userId: userId, email: email);
         }
       });
       return _user;
     }
 
     return _user = null;
+  }
+
+  Future<void> CreateUser({
+    required String userId,
+    required String email,
+    String? firstName,
+    String? lastName,
+    String? designation,
+  }) async {
+    User user = User.empty.copyWith(
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      designation: designation,
+    );
+
+    await usersCollection.doc(userId).set(user.toJson()).then((_) {
+      _user = user;
+    });
   }
 }

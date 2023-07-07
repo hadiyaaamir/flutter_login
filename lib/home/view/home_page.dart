@@ -20,9 +20,6 @@ class HomePage extends StatelessWidget {
           children: [
             Builder(
               builder: (context) {
-                final userId = context.select(
-                  (AuthenticationBloc bloc) => bloc.state.user.id,
-                );
                 final firstName = context.select(
                   (AuthenticationBloc bloc) => bloc.state.user.firstName,
                 );
@@ -39,7 +36,6 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 50.0),
                   child: Column(
                     children: [
-                      ProfileInformation(title: 'User ID', information: userId),
                       ProfileInformation(
                         title: 'Name',
                         information: '$firstName $lastName',
