@@ -77,7 +77,7 @@ class AuthenticationBloc
     Emitter<AuthenticationState> emit,
   ) {
     _authenticationRepository.logOut();
-    _userRepository.refreshUser();
+    _userRepository.resetUser();
   }
 
   Future<void> _onAuthenticationUserChanged(

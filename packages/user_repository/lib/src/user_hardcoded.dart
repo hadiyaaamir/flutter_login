@@ -25,7 +25,7 @@ class UserRepositoryHardcoded extends UserRepository {
   }
 
   @override
-  void refreshUser() {
+  void resetUser() {
     _user = null;
   }
 

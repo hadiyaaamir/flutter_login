@@ -8,5 +8,5 @@ abstract class UserRepository {
   Future<void> updateUser({required String userId, required User user});
   Future<void> createUser({required String userId, required User user});
 
-  void refreshUser();
+  void resetUser();
 }

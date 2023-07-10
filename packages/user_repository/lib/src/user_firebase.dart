@@ -39,5 +39,5 @@ class UserRepositoryFirebase extends UserRepository {
         .then((value) => _user = user);
   }
 
-  void refreshUser() => _user = null;
+  void resetUser() => _user = null;
 }
