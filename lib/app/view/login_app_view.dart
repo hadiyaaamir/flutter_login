@@ -28,7 +28,7 @@ class _LoginAppViewState extends State<LoginAppView> {
                 _navigator.pushAndRemoveUntil<void>(
                   state.user.profileCreated
                       ? HomePage.route()
-                      : ProfilePage.route(),
+                      : CreateProfilePage.route(),
                   (route) => false,
                 );
               case AuthenticationStatus.unauthenticated:

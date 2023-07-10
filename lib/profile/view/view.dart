@@ -7,5 +7,6 @@ import 'package:flutter_login/widgets/widgets.dart';
 import 'package:formz/formz.dart';
 import 'package:user_repository/user_repository.dart';
 
-part 'profile_form.dart';
+part 'create_profile_form.dart';
+part 'create_profile_page.dart';
 part 'profile_page.dart';
