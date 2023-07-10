@@ -122,11 +122,11 @@ class LogInWithEmailAndPasswordFailure implements Exception {
         );
       case 'user-not-found':
         return const LogInWithEmailAndPasswordFailure(
-          'Email is not found, please create an account.',
+          'Incorrect credentials, please try again.',
         );
       case 'wrong-password':
         return const LogInWithEmailAndPasswordFailure(
-          'Incorrect password, please try again.',
+          'Incorrect credentials, please try again.',
         );
       default:
         return const LogInWithEmailAndPasswordFailure();

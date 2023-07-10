@@ -5,29 +5,42 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {
-        if (state.status.isFailure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              const SnackBar(content: Text('Authentication Failure')),
-            );
-        }
-      },
-      child: const Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _EmailInput(),
-          SizedBox(height: 20),
-          _PasswordInput(),
-          SizedBox(height: 40),
-          _LoginButton(),
-          SizedBox(height: 20),
-          _SignupLink(),
-          SizedBox(height: 20),
-        ],
+    return const Center(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _ErrorMessage(),
+            SizedBox(height: 25),
+            _EmailInput(),
+            SizedBox(height: 20),
+            _PasswordInput(),
+            SizedBox(height: 40),
+            _LoginButton(),
+            SizedBox(height: 20),
+            _SignupLink(),
+            SizedBox(height: 20),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class _ErrorMessage extends StatelessWidget {
+  const _ErrorMessage();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LoginBloc, LoginState>(
+      buildWhen: (previous, current) =>
+          previous.errorMessage != current.errorMessage ||
+          previous.status != current.status,
+      builder: (context, state) {
+        return state.status.isFailure
+            ? ErrorText(text: state.errorMessage ?? 'Authentication Failure')
+            : const SizedBox();
+      },
     );
   }
 }
