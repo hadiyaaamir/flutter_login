@@ -1,26 +1,27 @@
 part of 'view.dart';
 
-class SignupPage extends StatelessWidget {
-  const SignupPage({super.key});
+class CreateProfilePage extends StatelessWidget {
+  const CreateProfilePage({super.key});
 
   static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const SignupPage());
+    return MaterialPageRoute<void>(builder: (_) => const CreateProfilePage());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Sign Up'),
+      appBar: const CustomAppBar(title: 'Create Profile'),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: BlocProvider(
           create: (context) {
-            return SignupBloc(
+            return ProfileBloc(
               authenticationRepository:
                   RepositoryProvider.of<AuthenticationRepository>(context),
+              userRepository: RepositoryProvider.of<UserRepository>(context),
             );
           },
-          child: const SignupForm(),
+          child: const CreateProfileForm(),
         ),
       ),
     );

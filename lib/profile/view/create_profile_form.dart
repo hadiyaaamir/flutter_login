@@ -1,7 +1,7 @@
 part of 'view.dart';
 
-class ProfileForm extends StatelessWidget {
-  const ProfileForm({super.key});
+class CreateProfileForm extends StatelessWidget {
+  const CreateProfileForm({super.key});
 
   @override
   Widget build(BuildContext context) {
