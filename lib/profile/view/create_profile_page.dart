@@ -10,7 +10,7 @@ class CreateProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Profile'), centerTitle: true),
+      appBar: const CustomAppBar(title: 'Create Profile'),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: BlocProvider(

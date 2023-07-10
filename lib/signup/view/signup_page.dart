@@ -10,7 +10,7 @@ class SignupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign Up'), centerTitle: true),
+      appBar: const CustomAppBar(title: 'Sign Up'),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: BlocProvider(

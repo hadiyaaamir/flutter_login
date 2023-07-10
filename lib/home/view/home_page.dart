@@ -9,17 +9,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () => Navigator.push(context, ProfilePage.route()),
-            icon: const Icon(Icons.account_circle, size: 30),
-          )
-        ],
-      ),
+    return const Scaffold(
+      appBar: CustomAppBar(title: 'Home', profileButton: true),
     );
   }
 }
