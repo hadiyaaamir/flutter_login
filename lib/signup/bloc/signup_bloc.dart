@@ -93,6 +93,11 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           password: state.password.value,
         );
         emit(state.copyWith(status: FormzSubmissionStatus.success));
+      } on SignUpWithEmailAndPasswordFailure catch (e) {
+        emit(state.copyWith(
+          errorMessage: e.message,
+          status: FormzSubmissionStatus.failure,
+        ));
       } catch (_) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
       }
