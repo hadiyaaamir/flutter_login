@@ -7,6 +7,7 @@ final class SignupState extends Equatable {
     this.password = const Password.pure(),
     this.confirmedPassword = const ConfirmedPassword.pure(),
     this.isValid = false,
+    this.errorMessage,
   });
 
   final FormzSubmissionStatus status;
@@ -14,6 +15,7 @@ final class SignupState extends Equatable {
   final Password password;
   final ConfirmedPassword confirmedPassword;
   final bool isValid;
+  final String? errorMessage;
 
   SignupState copyWith({
     FormzSubmissionStatus? status,
@@ -21,6 +23,7 @@ final class SignupState extends Equatable {
     Password? password,
     ConfirmedPassword? confirmedPassword,
     bool? isValid,
+    String? errorMessage,
   }) {
     return SignupState(
       status: status ?? this.status,
@@ -28,6 +31,7 @@ final class SignupState extends Equatable {
       password: password ?? this.password,
       confirmedPassword: confirmedPassword ?? this.confirmedPassword,
       isValid: isValid ?? this.isValid,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
