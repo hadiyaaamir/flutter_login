@@ -1,13 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'model/model.dart';
 
-abstract class TodosApi {
-  const TodosApi();
+part 'todo_repository_firebase.dart';
+
+abstract class TodoRepository {
+  const TodoRepository();
 
   Stream<List<Todo>> getTodos();
 
-  /// Saves a [todo].
-  ///
-  /// If a [todo] with the same id already exists, it will be replaced.
   Future<void> saveTodo(Todo todo);
 
   /// Deletes the `todo` with the given id.

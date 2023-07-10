@@ -2,8 +2,6 @@ part of 'user_repository.dart';
 
 class UserRepositoryFirebase extends UserRepository {
   User? _user;
-  // final firebase_auth.FirebaseAuth _firebaseAuth =
-  //     firebase_auth.FirebaseAuth.instance;
 
   final usersCollection = FirebaseFirestore.instance.collection("Users");
 
@@ -17,7 +15,6 @@ class UserRepositoryFirebase extends UserRepository {
         } else if (email != null) {
           _user = User.empty.copyWith(email: email);
         }
-        // await createUser(userId: userId, email: email);
       });
     }
     return _user;
@@ -32,7 +29,6 @@ class UserRepositoryFirebase extends UserRepository {
 
   @override
   Future<void> updateUser({required String userId, required User user}) async {
-    // User updatedUser = user.copyWith(email: email);
     await usersCollection
         .doc(userId)
         .update(user.toJson())
