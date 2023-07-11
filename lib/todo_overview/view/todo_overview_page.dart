@@ -9,8 +9,12 @@ class TodoOverviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CustomAppBar(title: 'To Do List', profileButton: true),
+    return BlocProvider(
+      create: (context) => TodoOverviewBloc(
+        userId: context.read<AuthenticationRepository>().currentAuthUser!.uid,
+        todoRepository: context.read<TodoRepository>(),
+      )..add(const TodoOverviewSubscriptionRequested()),
+      child: const TodoOverviewView(),
     );
   }
 }

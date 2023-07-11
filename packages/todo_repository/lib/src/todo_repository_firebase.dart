@@ -8,9 +8,9 @@ class ToDoRepositoryFirebase extends TodoRepository {
           );
 
   @override
-  Stream<List<Todo>> getTodos() {
+  Stream<List<Todo>> getTodos(String userId) {
     return todoCollection
-        .orderBy('id')
+        .where('userId', isEqualTo: userId)
         .snapshots()
         .map((snapshot) => snapshot.docs.map((e) => e.data()).toList());
   }

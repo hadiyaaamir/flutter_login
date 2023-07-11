@@ -7,24 +7,14 @@ part 'todo_repository_firebase.dart';
 abstract class TodoRepository {
   const TodoRepository();
 
-  Stream<List<Todo>> getTodos();
+  Stream<List<Todo>> getTodos(String userId);
 
   Future<void> saveTodo(Todo todo);
 
-  /// Deletes the `todo` with the given id.
-  ///
-  /// If no `todo` with the given id exists, a [TodoNotFoundException] error is
-  /// thrown.
   Future<void> deleteTodo(String id);
 
-  /// Deletes all completed todos.
-  ///
-  /// Returns the number of deleted todos.
   Future<int> clearCompleted();
 
-  /// Sets the `isCompleted` state of all todos to the given value.
-  ///
-  /// Returns the number of updated todos.
   Future<int> toggleCompleteAll({required bool isCompleted});
 }
 
