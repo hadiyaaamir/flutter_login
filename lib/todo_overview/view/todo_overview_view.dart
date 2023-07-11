@@ -48,35 +48,8 @@ class TodoOverviewView extends StatelessWidget {
             },
           ),
         ],
-        child: const _TodoList(),
+        child: const TodoList(),
       ),
-    );
-  }
-}
-
-class _TodoList extends StatelessWidget {
-  const _TodoList();
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<TodoOverviewBloc, TodoOverviewState>(
-      builder: (context, state) {
-        if (state.todos.isEmpty) {
-          if (state.status == TodosOverviewStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state.status != TodosOverviewStatus.success) {
-            return const SizedBox();
-          } else {
-            return Center(
-              child: Text(
-                'No items in to-do list',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            );
-          }
-        }
-        return ListView();
-      },
     );
   }
 }
