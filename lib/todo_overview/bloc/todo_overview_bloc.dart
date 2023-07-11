@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_login/todo_overview/model/model.dart';
 import 'package:todo_repository/todo_repository.dart';
 
 part 'todo_overview_event.dart';
@@ -71,8 +72,7 @@ class TodoOverviewBloc extends Bloc<TodoOverviewEvent, TodoOverviewState> {
     TodoOverviewFilterChanged event,
     Emitter<TodoOverviewState> emit,
   ) async {
-    //TODO
-    // emit(state.copyWith(filter: () => event.filter));
+    emit(state.copyWith(filter: () => event.filter));
   }
 
   Future<void> _onToggleAll(

@@ -37,14 +37,13 @@ final class TodoOverviewUndoDelete extends TodoOverviewEvent {
   const TodoOverviewUndoDelete();
 }
 
-//TODO: change this to filter thing when created filter
 final class TodoOverviewFilterChanged extends TodoOverviewEvent {
-  const TodoOverviewFilterChanged({required this.todo});
+  const TodoOverviewFilterChanged({required this.filter});
 
-  final Todo todo;
+  final TodosViewFilter filter;
 
   @override
-  List<Object> get props => [todo];
+  List<Object> get props => [filter];
 }
 
 final class TodoOverviewToggleAll extends TodoOverviewEvent {
