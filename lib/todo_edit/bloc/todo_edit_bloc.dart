@@ -1,13 +1,78 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:form_inputs/form_inputs.dart';
+import 'package:formz/formz.dart';
+import 'package:todo_repository/todo_repository.dart';
 
 part 'todo_edit_event.dart';
 part 'todo_edit_state.dart';
 
 class TodoEditBloc extends Bloc<TodoEditEvent, TodoEditState> {
-  TodoEditBloc() : super(TodoEditInitial()) {
-    on<TodoEditEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+  TodoEditBloc({
+    required TodoRepository todoRepository,
+    required Todo? todo,
+    required String userId,
+  })  : _todoRepository = todoRepository,
+        _userId = userId,
+        super(
+          TodoEditState(
+            todo: todo,
+            title: StringInput.dirty(todo?.title ?? ''),
+            description: StringInput.dirty(todo?.description ?? ''),
+          ),
+        ) {
+    on<TodoEditTitleChanged>(_onTitleChanged);
+    on<TodoEditDescriptionChanged>(_onDescriptionChanged);
+    on<TodoEditSubmitted>(_onSubmitted);
+  }
+
+  final TodoRepository _todoRepository;
+  final String _userId;
+
+  Future<void> _onTitleChanged(
+    TodoEditTitleChanged event,
+    Emitter<TodoEditState> emit,
+  ) async {
+    final title = StringInput.dirty(event.title);
+    emit(
+      state.copyWith(
+        title: title,
+        isValid: Formz.validate([title, state.description]),
+      ),
+    );
+  }
+
+  Future<void> _onDescriptionChanged(
+    TodoEditDescriptionChanged event,
+    Emitter<TodoEditState> emit,
+  ) async {
+    final description = StringInput.dirty(event.description);
+    emit(
+      state.copyWith(
+        description: description,
+        isValid: Formz.validate([state.title, description]),
+      ),
+    );
+  }
+
+  Future<void> _onSubmitted(
+    TodoEditSubmitted event,
+    Emitter<TodoEditState> emit,
+  ) async {
+    emit(state.copyWith(status: TodoEditStatus.loading));
+
+    final todo = (state.todo ?? Todo(title: '', userId: _userId)).copyWith(
+      title: state.title.value,
+      description: state.description.value,
+    );
+
+    try {
+      await _todoRepository.saveTodo(todo);
+      emit(state.copyWith(status: TodoEditStatus.success));
+    } catch (e) {
+      emit(state.copyWith(status: TodoEditStatus.failure));
+    }
   }
 }

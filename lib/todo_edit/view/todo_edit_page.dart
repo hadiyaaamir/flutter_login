@@ -8,9 +8,10 @@ class TodoEditPage extends StatelessWidget {
       fullscreenDialog: true,
       builder: (context) => BlocProvider(
         create: (context) => TodoEditBloc(
-            // todoRepository: context.read<TodoRepository>(),
-            // todo: todo,
-            ),
+          todoRepository: context.read<TodoRepository>(),
+          userId: context.read<AuthenticationRepository>().currentAuthUser!.uid,
+          todo: todo,
+        ),
         child: const TodoEditPage(),
       ),
     );
@@ -18,6 +19,12 @@ class TodoEditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return BlocListener<TodoEditBloc, TodoEditState>(
+      listenWhen: (previous, current) =>
+          previous.status != current.status &&
+          current.status == TodoEditStatus.success,
+      listener: (context, state) => Navigator.of(context).pop(),
+      child: const TodoEditView(),
+    );
   }
 }

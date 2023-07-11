@@ -1,7 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_login/profile/model/model.dart';
+import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -28,7 +28,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ProfileFirstNameChanged event,
     Emitter<ProfileState> emit,
   ) {
-    final firstName = Name.dirty(event.firstName);
+    final firstName = StringInput.dirty(event.firstName);
     emit(
       state.copyWith(
         firstName: firstName,
@@ -41,7 +41,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ProfileLastNameChanged event,
     Emitter<ProfileState> emit,
   ) {
-    final lastName = Name.dirty(event.lastName);
+    final lastName = StringInput.dirty(event.lastName);
     emit(
       state.copyWith(
         lastName: lastName,
@@ -54,7 +54,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ProfileDesignationChanged event,
     Emitter<ProfileState> emit,
   ) {
-    final designation = Designation.dirty(event.designation);
+    final designation = StringInput.dirty(event.designation);
     emit(
       state.copyWith(
         designation: designation,
