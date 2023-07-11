@@ -21,7 +21,9 @@ class TodoList extends StatelessWidget {
               TodoListTile(
                 // todo: Todo(title: 'Hello no.$i', userId: ''),
                 todo: todo,
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, TodoEditPage.route(todo: todo));
+                },
                 onDismissed: (_) {
                   context
                       .read<TodoOverviewBloc>()
@@ -35,7 +37,7 @@ class TodoList extends StatelessWidget {
                         ),
                       );
                 },
-              )
+              ),
           ],
         );
       },
