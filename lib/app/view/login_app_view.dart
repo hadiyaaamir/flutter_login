@@ -27,7 +27,7 @@ class _LoginAppViewState extends State<LoginAppView> {
               case AuthenticationStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
                   state.user.profileCreated
-                      ? ToDoListPage.route()
+                      ? TodoOverviewPage.route()
                       : CreateProfilePage.route(),
                   (route) => false,
                 );

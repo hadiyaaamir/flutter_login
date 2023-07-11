@@ -1,10 +1,10 @@
 part of 'view.dart';
 
-class ToDoListPage extends StatelessWidget {
-  const ToDoListPage({super.key});
+class TodoOverviewPage extends StatelessWidget {
+  const TodoOverviewPage({super.key});
 
   static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const ToDoListPage());
+    return MaterialPageRoute<void>(builder: (_) => const TodoOverviewPage());
   }
 
   @override

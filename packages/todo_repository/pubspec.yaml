@@ -1,4 +1,4 @@
-name: todos_api
+name: todo_repository
 description: The interface and models for an API providing access to todos.
 version: 1.0.0+1
 publish_to: none
