@@ -51,13 +51,14 @@ class ToDoRepositoryFirebase extends TodoRepository {
   }
 
   @override
-  Future<int> completeAll({required bool isCompleted}) async {
+  Future<int> toggleCompleteAll({required bool isCompleted}) async {
     final batch = FirebaseFirestore.instance.batch();
     return todoCollection.get().then(
       (querySnapshot) {
         for (final document in querySnapshot.docs) {
-          final completedTodo = document.data().copyWith(isCompleted: true);
-          batch.update(document.reference, completedTodo.toJson());
+          final toggledTodo =
+              document.data().copyWith(isCompleted: isCompleted);
+          batch.update(document.reference, toggledTodo.toJson());
         }
         batch.commit();
         return querySnapshot.docs.length;

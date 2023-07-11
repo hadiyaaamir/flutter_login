@@ -25,7 +25,7 @@ abstract class TodoRepository {
   /// Sets the `isCompleted` state of all todos to the given value.
   ///
   /// Returns the number of updated todos.
-  Future<int> completeAll({required bool isCompleted});
+  Future<int> toggleCompleteAll({required bool isCompleted});
 }
 
 /// Error thrown when a [Todo] with a given id is not found.
