@@ -12,61 +12,87 @@ class TodoList extends StatelessWidget {
               ? const Center(child: CircularProgressIndicator())
               : (state.status != TodosOverviewStatus.success)
                   ? const SizedBox()
-                  : Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('Your List is Empty'),
-                          const SizedBox(height: 10),
-                          Button(
-                              onPressed: () {
-                                Navigator.push(context, TodoEditPage.route());
-                              },
-                              label: 'Add To Do',
-                              width: 130)
-                        ],
-                      ),
-                    );
+                  : const _EmptyList();
         }
-        final status = context.read<TodoOverviewBloc>().state.status;
-        return Column(
+        return const Column(
           children: [
-            const TodoFilterOptions(),
-            Expanded(
-              child: ListView(
-                children: [
-                  for (final todo in state.filteredTodos)
-                    // for (int i = 0; i < 2; i++)
-
-                    (status == TodosOverviewStatus.loading)
-                        ? const SizedBox()
-                        : TodoListTile(
-                            // todo: Todo(title: 'Hello no.$i', userId: ''),
-                            todo: todo,
-                            onTap: () {
-                              Navigator.push(
-                                  context, TodoEditPage.route(todo: todo));
-                            },
-                            onDismissed: (_) {
-                              context
-                                  .read<TodoOverviewBloc>()
-                                  .add(TodoOverviewDeleted(todo: todo));
-                            },
-                            onToggleCompleted: (isCompleted) {
-                              context.read<TodoOverviewBloc>().add(
-                                    TodoOverviewCompletionToggled(
-                                      todo: todo,
-                                      isCompleted: isCompleted,
-                                    ),
-                                  );
-                            },
-                          ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [TodoFilterOptions(), TodoOptionsMenu()],
             ),
+            _NonEmptyList(),
           ],
         );
       },
+    );
+  }
+}
+
+class _NonEmptyList extends StatelessWidget {
+  const _NonEmptyList();
+
+  @override
+  Widget build(BuildContext context) {
+    final Iterable<Todo> filteredTodos =
+        context.select((TodoOverviewBloc bloc) => bloc.state.filteredTodos);
+
+    final TodosOverviewStatus status =
+        context.select((TodoOverviewBloc bloc) => bloc.state.status);
+
+    return Expanded(
+      child: status == TodosOverviewStatus.loading
+          ? const Center(child: CircularProgressIndicator())
+          : Scrollbar(
+              radius: const Radius.circular(20),
+              child: ListView(
+                children: [
+                  for (final todo in filteredTodos)
+                    TodoListTile(
+                      todo: todo,
+                      onTap: () {
+                        Navigator.push(context, TodoEditPage.route(todo: todo));
+                      },
+                      onDismissed: (_) {
+                        context
+                            .read<TodoOverviewBloc>()
+                            .add(TodoOverviewDeleted(todo: todo));
+                      },
+                      onToggleCompleted: (isCompleted) {
+                        context.read<TodoOverviewBloc>().add(
+                              TodoOverviewCompletionToggled(
+                                todo: todo,
+                                isCompleted: isCompleted,
+                              ),
+                            );
+                      },
+                    ),
+                ],
+              ),
+            ),
+    );
+  }
+}
+
+class _EmptyList extends StatelessWidget {
+  const _EmptyList();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text('Your List is Empty'),
+          const SizedBox(height: 10),
+          Button(
+            label: 'Add To Do',
+            width: 130,
+            onPressed: () {
+              Navigator.push(context, TodoEditPage.route());
+            },
+          )
+        ],
+      ),
     );
   }
 }

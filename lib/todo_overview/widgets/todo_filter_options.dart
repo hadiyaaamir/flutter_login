@@ -7,6 +7,7 @@ class TodoFilterOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     List filters = TodoViewFilter.values.map((e) => e).toList();
     return Wrap(
+      spacing: 10,
       children: List.generate(
           filters.length, (index) => FilterButton(filter: filters[index])),
     );
@@ -30,7 +31,7 @@ class FilterButton extends StatelessWidget {
     bool isSelected = activeFilter == filter;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: GestureDetector(
         child: Container(
           decoration: BoxDecoration(
@@ -39,7 +40,7 @@ class FilterButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
             child: Text(
               filter.text,
               style: TextStyle(
