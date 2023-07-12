@@ -28,7 +28,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ProfileFirstNameChanged event,
     Emitter<ProfileState> emit,
   ) {
-    final firstName = StringInput.dirty(event.firstName);
+    final firstName = StringInput.dirty(value: event.firstName);
     emit(
       state.copyWith(
         firstName: firstName,
@@ -41,7 +41,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ProfileLastNameChanged event,
     Emitter<ProfileState> emit,
   ) {
-    final lastName = StringInput.dirty(event.lastName);
+    final lastName = StringInput.dirty(value: event.lastName);
     emit(
       state.copyWith(
         lastName: lastName,
@@ -54,7 +54,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ProfileDesignationChanged event,
     Emitter<ProfileState> emit,
   ) {
-    final designation = StringInput.dirty(event.designation);
+    final designation = StringInput.dirty(value: event.designation);
     emit(
       state.copyWith(
         designation: designation,

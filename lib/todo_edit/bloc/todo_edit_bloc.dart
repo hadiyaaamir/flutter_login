@@ -19,8 +19,8 @@ class TodoEditBloc extends Bloc<TodoEditEvent, TodoEditState> {
         super(
           TodoEditState(
             todo: todo,
-            title: StringInput.dirty(todo?.title ?? ''),
-            description: StringInput.dirty(todo?.description ?? ''),
+            title: StringInput.dirty(value: todo?.title ?? ''),
+            description: StringInput.dirty(value: todo?.description ?? ''),
           ),
         ) {
     on<TodoEditTitleChanged>(_onTitleChanged);
@@ -35,7 +35,7 @@ class TodoEditBloc extends Bloc<TodoEditEvent, TodoEditState> {
     TodoEditTitleChanged event,
     Emitter<TodoEditState> emit,
   ) async {
-    final title = StringInput.dirty(event.title);
+    final title = StringInput.dirty(value: event.title);
     emit(
       state.copyWith(
         title: title,
@@ -48,7 +48,10 @@ class TodoEditBloc extends Bloc<TodoEditEvent, TodoEditState> {
     TodoEditDescriptionChanged event,
     Emitter<TodoEditState> emit,
   ) async {
-    final description = StringInput.dirty(event.description);
+    final description = StringInput.dirty(
+      value: event.description,
+      allowEmpty: true,
+    );
     emit(
       state.copyWith(
         description: description,
