@@ -12,7 +12,21 @@ class TodoList extends StatelessWidget {
               ? const Center(child: CircularProgressIndicator())
               : (state.status != TodosOverviewStatus.success)
                   ? const SizedBox()
-                  : const Center(child: Text('Your List is Empty'));
+                  : Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('Your List is Empty'),
+                          const SizedBox(height: 10),
+                          Button(
+                              onPressed: () {
+                                Navigator.push(context, TodoEditPage.route());
+                              },
+                              label: 'Add To Do',
+                              width: 130)
+                        ],
+                      ),
+                    );
         }
         return ListView(
           children: [

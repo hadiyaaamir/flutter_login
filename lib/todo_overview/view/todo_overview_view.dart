@@ -50,6 +50,17 @@ class TodoOverviewView extends StatelessWidget {
         ],
         child: const TodoList(),
       ),
+      floatingActionButton: BlocBuilder<TodoOverviewBloc, TodoOverviewState>(
+        builder: (context, state) {
+          return Visibility(
+            visible: state.todos.isNotEmpty,
+            child: FloatingActionButton(
+              onPressed: () => Navigator.push(context, TodoEditPage.route()),
+              child: const Icon(Icons.add),
+            ),
+          );
+        },
+      ),
     );
   }
 }

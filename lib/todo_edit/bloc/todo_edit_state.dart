@@ -12,7 +12,7 @@ final class TodoEditState extends Equatable {
     this.status = TodoEditStatus.initial,
     this.todo,
     this.title = const StringInput.pure(),
-    this.description = const StringInput.pure(),
+    this.description = const StringInput.pure(allowEmpty: true),
     this.isValid = false,
   });
 

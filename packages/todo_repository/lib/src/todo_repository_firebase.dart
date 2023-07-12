@@ -17,11 +17,8 @@ class ToDoRepositoryFirebase extends TodoRepository {
 
   @override
   Future<void> saveTodo(Todo todo) async {
-    final todoFirestore = await todoCollection.doc(todo.id).get();
-
-    todoFirestore.exists
-        ? await todoCollection.doc(todo.id).set(todo)
-        : await todoCollection.doc(todo.id).update(todo.toJson());
+    // final todoFirestore = await todoCollection.doc(todo.id).get();
+    await todoCollection.doc(todo.id).set(todo);
   }
 
   @override

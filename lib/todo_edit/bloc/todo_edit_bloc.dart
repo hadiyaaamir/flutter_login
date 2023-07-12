@@ -20,7 +20,10 @@ class TodoEditBloc extends Bloc<TodoEditEvent, TodoEditState> {
           TodoEditState(
             todo: todo,
             title: StringInput.dirty(value: todo?.title ?? ''),
-            description: StringInput.dirty(value: todo?.description ?? ''),
+            description: StringInput.dirty(
+              value: todo?.description ?? '',
+              allowEmpty: true,
+            ),
           ),
         ) {
     on<TodoEditTitleChanged>(_onTitleChanged);
