@@ -34,11 +34,21 @@ class TodoListTile extends StatelessWidget {
           style: !todo.isCompleted
               ? null
               : const TextStyle(
-                  // color: captionColor,
+                  color: Colors.grey,
                   decoration: TextDecoration.lineThrough,
                 ),
         ),
-        subtitle: todo.description.isNotEmpty ? Text(todo.description) : null,
+        subtitle: todo.description.isNotEmpty
+            ? Text(
+                todo.description,
+                style: !todo.isCompleted
+                    ? null
+                    : const TextStyle(
+                        color: Colors.grey,
+                        decoration: TextDecoration.lineThrough,
+                      ),
+              )
+            : null,
         onTap: onTap,
         leading: Checkbox(
           shape: const ContinuousRectangleBorder(

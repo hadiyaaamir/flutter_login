@@ -29,33 +29,41 @@ class TodoList extends StatelessWidget {
                     );
         }
         final status = context.read<TodoOverviewBloc>().state.status;
-        return ListView(
+        return Column(
           children: [
-            for (final todo in state.filteredTodos)
-              // for (int i = 0; i < 2; i++)
+            const TodoFilterOptions(),
+            Expanded(
+              child: ListView(
+                children: [
+                  for (final todo in state.filteredTodos)
+                    // for (int i = 0; i < 2; i++)
 
-              (status == TodosOverviewStatus.loading)
-                  ? const SizedBox()
-                  : TodoListTile(
-                      // todo: Todo(title: 'Hello no.$i', userId: ''),
-                      todo: todo,
-                      onTap: () {
-                        Navigator.push(context, TodoEditPage.route(todo: todo));
-                      },
-                      onDismissed: (_) {
-                        context
-                            .read<TodoOverviewBloc>()
-                            .add(TodoOverviewDeleted(todo: todo));
-                      },
-                      onToggleCompleted: (isCompleted) {
-                        context.read<TodoOverviewBloc>().add(
-                              TodoOverviewCompletionToggled(
-                                todo: todo,
-                                isCompleted: isCompleted,
-                              ),
-                            );
-                      },
-                    ),
+                    (status == TodosOverviewStatus.loading)
+                        ? const SizedBox()
+                        : TodoListTile(
+                            // todo: Todo(title: 'Hello no.$i', userId: ''),
+                            todo: todo,
+                            onTap: () {
+                              Navigator.push(
+                                  context, TodoEditPage.route(todo: todo));
+                            },
+                            onDismissed: (_) {
+                              context
+                                  .read<TodoOverviewBloc>()
+                                  .add(TodoOverviewDeleted(todo: todo));
+                            },
+                            onToggleCompleted: (isCompleted) {
+                              context.read<TodoOverviewBloc>().add(
+                                    TodoOverviewCompletionToggled(
+                                      todo: todo,
+                                      isCompleted: isCompleted,
+                                    ),
+                                  );
+                            },
+                          ),
+                ],
+              ),
+            ),
           ],
         );
       },

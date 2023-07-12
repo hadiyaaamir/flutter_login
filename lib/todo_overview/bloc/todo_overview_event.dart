@@ -40,7 +40,7 @@ final class TodoOverviewUndoDelete extends TodoOverviewEvent {
 final class TodoOverviewFilterChanged extends TodoOverviewEvent {
   const TodoOverviewFilterChanged({required this.filter});
 
-  final TodosViewFilter filter;
+  final TodoViewFilter filter;
 
   @override
   List<Object> get props => [filter];

@@ -11,13 +11,13 @@ class ToDoRepositoryFirebase extends TodoRepository {
   Stream<List<Todo>> getTodos(String userId) {
     return todoCollection
         .where('userId', isEqualTo: userId)
+        .orderBy('isCompleted')
         .snapshots()
         .map((snapshot) => snapshot.docs.map((e) => e.data()).toList());
   }
 
   @override
   Future<void> saveTodo(Todo todo) async {
-    // final todoFirestore = await todoCollection.doc(todo.id).get();
     await todoCollection.doc(todo.id).set(todo);
   }
 
