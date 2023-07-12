@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
     required this.onChanged,
     this.obsecureText = false,
     this.maxLines = 1,
+    this.initialValue,
   });
 
   final String label;
@@ -15,13 +16,15 @@ class CustomTextField extends StatelessWidget {
   final Function(String) onChanged;
   final bool obsecureText;
   final int maxLines;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       onChanged: onChanged,
       obscureText: obsecureText,
       maxLines: maxLines,
+      initialValue: initialValue,
       decoration: InputDecoration(
         labelText: label,
         errorText: errorText,

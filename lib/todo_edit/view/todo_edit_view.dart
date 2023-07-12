@@ -28,7 +28,7 @@ class TodoEditView extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: const _EditTodoButton(),
+      floatingActionButton: _EditTodoButton(isNewTodo: isNewTodo),
     );
   }
 }
@@ -44,6 +44,7 @@ class _TitleInput extends StatelessWidget {
         return CustomTextField(
           key: const Key('editTodoForm_titleInput_textField'),
           label: 'Title',
+          initialValue: state.title.value,
           errorText:
               state.title.displayError != null ? 'field cannot be empty' : null,
           onChanged: (title) => context
@@ -67,6 +68,7 @@ class _DescriptionInput extends StatelessWidget {
         return CustomTextField(
           key: const Key('editTodoForm_descriptionInput_textField'),
           label: 'Description',
+          initialValue: state.description.value,
           maxLines: 10,
           errorText: state.description.displayError != null
               ? 'field cannot be empty'
@@ -81,7 +83,9 @@ class _DescriptionInput extends StatelessWidget {
 }
 
 class _EditTodoButton extends StatelessWidget {
-  const _EditTodoButton();
+  const _EditTodoButton({required this.isNewTodo});
+
+  final bool isNewTodo;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +102,7 @@ class _EditTodoButton extends StatelessWidget {
                           .read<TodoEditBloc>()
                           .add(const TodoEditSubmitted())
                       : null,
-                  label: 'Edit To-Do',
+                  label: isNewTodo ? 'Add To-Do' : 'Edit To-Do',
                 );
         },
       ),
