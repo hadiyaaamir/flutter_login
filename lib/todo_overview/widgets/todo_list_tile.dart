@@ -16,9 +16,11 @@ class TodoListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final status = context.read<TodoOverviewBloc>().state.status;
+
     return Dismissible(
       key: Key('todoListTile_dismissible_${todo.id}'),
-      onDismissed: onDismissed,
+      onDismissed: status == TodosOverviewStatus.loading ? null : onDismissed,
       direction: DismissDirection.endToStart,
       background: Container(
         alignment: Alignment.centerRight,

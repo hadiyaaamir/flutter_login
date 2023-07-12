@@ -33,7 +33,7 @@ class TodoOverviewView extends StatelessWidget {
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
                   SnackBar(
-                    content: Text('Failed to delete ${deletedTodo.title}'),
+                    content: Text('Deleted ${deletedTodo.title}'),
                     action: SnackBarAction(
                       label: "Undo",
                       onPressed: () {
