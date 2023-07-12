@@ -5,7 +5,7 @@ class TodoEditView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final status = context.select((TodoEditBloc bloc) => bloc.state.status);
+    // final status = context.select((TodoEditBloc bloc) => bloc.state.status);
     final isNewTodo = context.select(
       (TodoEditBloc bloc) => bloc.state.isNewTodo,
     );
@@ -27,18 +27,8 @@ class TodoEditView extends StatelessWidget {
           ]),
         ),
       ),
-      floatingActionButton: _EditTodoButton(),
-      // floatingActionButton: FloatingActionButton(
-      //   shape: const ContinuousRectangleBorder(
-      //     borderRadius: BorderRadius.all(Radius.circular(32)),
-      //   ),
-      //   onPressed: status.isLoadingOrSuccess
-      //       ? null
-      //       : () => context.read<TodoEditBloc>().add(const TodoEditSubmitted()),
-      //   child: status.isLoadingOrSuccess
-      //       ? const CircularProgressIndicator()
-      //       : const Icon(Icons.check_rounded),
-      // ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: const _EditTodoButton(),
     );
   }
 }
@@ -77,6 +67,7 @@ class _DescriptionInput extends StatelessWidget {
         return CustomTextField(
           key: const Key('editTodoForm_descriptionInput_textField'),
           label: 'Description',
+          maxLines: 10,
           errorText: state.description.displayError != null
               ? 'field cannot be empty'
               : null,
@@ -94,20 +85,23 @@ class _EditTodoButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TodoEditBloc, TodoEditState>(
-      builder: (context, state) {
-        return state.status.isLoadingOrSuccess
-            ? const CircularProgressIndicator()
-            : Button(
-                key: const Key('editTodoForm_button'),
-                onPressed: state.isValid
-                    ? () => context
-                        .read<TodoEditBloc>()
-                        .add(const TodoEditSubmitted())
-                    : null,
-                label: 'Edit To-Do',
-              );
-      },
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20, top: 10),
+      child: BlocBuilder<TodoEditBloc, TodoEditState>(
+        builder: (context, state) {
+          return state.status.isLoadingOrSuccess
+              ? const CircularProgressIndicator()
+              : Button(
+                  key: const Key('editTodoForm_button'),
+                  onPressed: state.isValid
+                      ? () => context
+                          .read<TodoEditBloc>()
+                          .add(const TodoEditSubmitted())
+                      : null,
+                  label: 'Edit To-Do',
+                );
+        },
+      ),
     );
   }
 }
