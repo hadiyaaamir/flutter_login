@@ -57,6 +57,7 @@ class TodoListTile extends StatelessWidget {
           value: todo.isCompleted,
           onChanged: (value) => onToggleCompleted(value!),
         ),
+        trailing: const Icon(Icons.keyboard_arrow_right_rounded),
       ),
     );
   }

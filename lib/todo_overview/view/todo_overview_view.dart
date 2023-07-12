@@ -55,6 +55,8 @@ class TodoOverviewView extends StatelessWidget {
           return Visibility(
             visible: state.todos.isNotEmpty,
             child: FloatingActionButton(
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
               onPressed: () => Navigator.push(context, TodoEditPage.route()),
               child: const Icon(Icons.add),
             ),

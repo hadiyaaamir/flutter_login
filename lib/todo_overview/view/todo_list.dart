@@ -44,29 +44,33 @@ class _NonEmptyList extends StatelessWidget {
           ? const Center(child: CircularProgressIndicator())
           : Scrollbar(
               radius: const Radius.circular(20),
-              child: ListView(
-                children: [
-                  for (final todo in filteredTodos)
-                    TodoListTile(
-                      todo: todo,
-                      onTap: () {
-                        Navigator.push(context, TodoEditPage.route(todo: todo));
-                      },
-                      onDismissed: (_) {
-                        context
-                            .read<TodoOverviewBloc>()
-                            .add(TodoOverviewDeleted(todo: todo));
-                      },
-                      onToggleCompleted: (isCompleted) {
-                        context.read<TodoOverviewBloc>().add(
-                              TodoOverviewCompletionToggled(
-                                todo: todo,
-                                isCompleted: isCompleted,
-                              ),
-                            );
-                      },
-                    ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: ListView.builder(
+                    itemCount: filteredTodos.length,
+                    itemBuilder: (context, index) {
+                      Todo todo = filteredTodos.elementAt(index);
+                      return TodoListTile(
+                        todo: todo,
+                        onTap: () {
+                          Navigator.push(
+                              context, TodoEditPage.route(todo: todo));
+                        },
+                        onDismissed: (_) {
+                          context
+                              .read<TodoOverviewBloc>()
+                              .add(TodoOverviewDeleted(todo: todo));
+                        },
+                        onToggleCompleted: (isCompleted) {
+                          context.read<TodoOverviewBloc>().add(
+                                TodoOverviewCompletionToggled(
+                                  todo: todo,
+                                  isCompleted: isCompleted,
+                                ),
+                              );
+                        },
+                      );
+                    }),
               ),
             ),
     );

@@ -14,10 +14,12 @@ class Todo extends Equatable {
     String? id,
     this.description = '',
     this.isCompleted = false,
+    DateTime? dateCreated,
   })  : assert(
           id == null || id.isNotEmpty,
           'id must either be null or not empty',
         ),
+        dateCreated = dateCreated ?? DateTime.now(),
         id = id ?? const Uuid().v4();
 
   final String id;
@@ -25,6 +27,7 @@ class Todo extends Equatable {
   final String title;
   final String description;
   final bool isCompleted;
+  final DateTime dateCreated;
 
   Todo copyWith({
     String? id,
@@ -32,6 +35,7 @@ class Todo extends Equatable {
     String? title,
     String? description,
     bool? isCompleted,
+    DateTime? dateCreated,
   }) {
     return Todo(
       id: id ?? this.id,
@@ -39,6 +43,7 @@ class Todo extends Equatable {
       title: title ?? this.title,
       description: description ?? this.description,
       isCompleted: isCompleted ?? this.isCompleted,
+      dateCreated: dateCreated ?? this.dateCreated,
     );
   }
 
@@ -48,6 +53,7 @@ class Todo extends Equatable {
         userId: json['userId'] as String,
         description: json['description'] as String? ?? '',
         isCompleted: json['isCompleted'] as bool? ?? false,
+        dateCreated: json['dateCreated'].toDate(),
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -56,8 +62,9 @@ class Todo extends Equatable {
         'title': title,
         'description': description,
         'isCompleted': isCompleted,
+        'dateCreated': dateCreated,
       };
 
   @override
-  List<Object> get props => [id, title, description, isCompleted];
+  List<Object> get props => [id, title, description, isCompleted, dateCreated];
 }
