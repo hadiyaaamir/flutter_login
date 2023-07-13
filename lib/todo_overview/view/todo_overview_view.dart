@@ -5,8 +5,11 @@ class TodoOverviewView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String title =
+        context.select((TodoOverviewBloc bloc) => bloc.todoList.title);
+
     return Scaffold(
-      appBar: const CustomAppBar(title: 'To Do List ', profileButton: true),
+      appBar: CustomAppBar(title: title, profileButton: true),
       body: MultiBlocListener(
         listeners: [
           BlocListener<TodoOverviewBloc, TodoOverviewState>(
@@ -48,16 +51,20 @@ class TodoOverviewView extends StatelessWidget {
             },
           ),
         ],
-        child: const TodoList(),
+        child: const TodosList(),
       ),
       floatingActionButton: BlocBuilder<TodoOverviewBloc, TodoOverviewState>(
         builder: (context, state) {
+          final TodoList todoList =
+              context.select((TodoOverviewBloc bloc) => bloc.todoList);
+
           return Visibility(
             visible: state.todos.isNotEmpty,
             child: FloatingActionButton(
               backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Theme.of(context).colorScheme.onPrimary,
-              onPressed: () => Navigator.push(context, TodoEditPage.route()),
+              onPressed: () => Navigator.push(
+                  context, TodoEditPage.route(todoList: todoList)),
               child: const Icon(Icons.add),
             ),
           );

@@ -61,6 +61,7 @@ class Todo extends Equatable {
   Map<String, dynamic> toJson() => <String, dynamic>{
         'id': id,
         // 'userId': userId,
+        'listId': listId,
         'title': title,
         'description': description,
         'isCompleted': isCompleted,

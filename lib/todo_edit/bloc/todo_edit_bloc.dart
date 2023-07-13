@@ -13,9 +13,8 @@ class TodoEditBloc extends Bloc<TodoEditEvent, TodoEditState> {
   TodoEditBloc({
     required TodoRepository todoRepository,
     required Todo? todo,
-    required String listId,
+    required this.todoList,
   })  : _todoRepository = todoRepository,
-        _listId = listId,
         super(
           TodoEditState(
             todo: todo,
@@ -32,7 +31,7 @@ class TodoEditBloc extends Bloc<TodoEditEvent, TodoEditState> {
   }
 
   final TodoRepository _todoRepository;
-  final String _listId;
+  final TodoList todoList;
 
   Future<void> _onTitleChanged(
     TodoEditTitleChanged event,
@@ -69,7 +68,7 @@ class TodoEditBloc extends Bloc<TodoEditEvent, TodoEditState> {
   ) async {
     emit(state.copyWith(status: TodoEditStatus.loading));
 
-    final todo = (state.todo ?? Todo(title: '', listId: _listId)).copyWith(
+    final todo = (state.todo ?? Todo(title: '', listId: todoList.id)).copyWith(
       title: state.title.value,
       description: state.description.value,
     );
