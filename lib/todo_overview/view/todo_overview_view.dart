@@ -53,23 +53,27 @@ class TodoOverviewView extends StatelessWidget {
         ],
         child: const TodosList(),
       ),
-      floatingActionButton: BlocBuilder<TodoOverviewBloc, TodoOverviewState>(
-        builder: (context, state) {
-          final TodoList todoList =
-              context.select((TodoOverviewBloc bloc) => bloc.todoList);
+      floatingActionButton: _AddTodoButton(),
+    );
+  }
+}
 
-          return Visibility(
-            visible: state.todos.isNotEmpty,
-            child: FloatingActionButton(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              foregroundColor: Theme.of(context).colorScheme.onPrimary,
-              onPressed: () => Navigator.push(
-                  context, TodoEditPage.route(todoList: todoList)),
-              child: const Icon(Icons.add),
-            ),
-          );
-        },
-      ),
+class _AddTodoButton extends StatelessWidget {
+  const _AddTodoButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TodoOverviewBloc, TodoOverviewState>(
+      builder: (context, state) {
+        final TodoList todoList =
+            context.select((TodoOverviewBloc bloc) => bloc.todoList);
+
+        return FloatingActionIconButton(
+          isVisible: state.todos.isNotEmpty,
+          onPressed: () =>
+              Navigator.push(context, TodoEditPage.route(todoList: todoList)),
+        );
+      },
     );
   }
 }

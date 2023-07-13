@@ -16,7 +16,6 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
         super(const TodoListState()) {
     on<TodoListSubscriptionRequested>(_onSubscriptionRequested);
     on<TodoListAdded>(_onListAdded);
-    on<TodoListCurrentListChanged>(_onCurrentListChanged);
   }
 
   final TodoRepository _todoRepository;
@@ -49,16 +48,10 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
     final todoList = (TodoList(userId: _userId, title: ''));
 
     try {
-      //TODO: create repo method and call here
-      // await _todoRepository.saveTodo(todo);
+      await _todoRepository.saveTodoList(todoList);
       emit(state.copyWith(status: () => TodoListStatus.success));
     } catch (e) {
       emit(state.copyWith(status: () => TodoListStatus.failure));
     }
   }
-
-  Future<void> _onCurrentListChanged(
-    TodoListCurrentListChanged event,
-    Emitter<TodoListState> emit,
-  ) async {}
 }

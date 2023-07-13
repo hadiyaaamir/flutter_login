@@ -20,6 +20,21 @@ class TodoListView extends StatelessWidget {
         },
         child: const TodoListsList(),
       ),
+      floatingActionButton: const _AddTodoListButton(),
+    );
+  }
+}
+
+class _AddTodoListButton extends StatelessWidget {
+  const _AddTodoListButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TodoListBloc, TodoListState>(
+      builder: (context, state) {
+        return FloatingActionIconButton(
+            isVisible: state.todoLists.isNotEmpty, onPressed: () {});
+      },
     );
   }
 }
