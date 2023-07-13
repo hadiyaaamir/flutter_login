@@ -18,6 +18,8 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
     on<TodoListSubscriptionRequested>(_onSubscriptionRequested);
     on<TodoListAdded>(_onListAdded);
     on<TodoListTitleChanged>(_onTitleChanged);
+    on<TodoListDeleted>(_onListDeleted);
+    on<TodoListUndoDelete>(_onUndoDelete);
   }
 
   final TodoRepository _todoRepository;
@@ -65,5 +67,35 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
     emit(
       state.copyWith(title: title),
     );
+  }
+
+  Future<void> _onListDeleted(
+    TodoListDeleted event,
+    Emitter<TodoListState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        lastDeletedList: () => event.todoList,
+        status: () => TodoListStatus.loading,
+      ),
+    );
+    try {
+      await _todoRepository.deleteTodoList(event.todoList.id);
+      emit(state.copyWith(status: () => TodoListStatus.success));
+    } catch (e) {
+      print('ohho masla hogaya. $e');
+      emit(state.copyWith(status: () => TodoListStatus.failure));
+    }
+  }
+
+  Future<void> _onUndoDelete(
+    TodoListUndoDelete event,
+    Emitter<TodoListState> emit,
+  ) async {
+    if (state.lastDeletedList != null) {
+      final deletedTodoList = state.lastDeletedList!;
+      emit(state.copyWith(lastDeletedList: () => null));
+      await _todoRepository.saveTodoList(deletedTodoList);
+    }
   }
 }

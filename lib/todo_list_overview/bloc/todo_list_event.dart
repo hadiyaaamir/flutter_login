@@ -23,3 +23,16 @@ final class TodoListTitleChanged extends TodoListEvent {
 final class TodoListAdded extends TodoListEvent {
   const TodoListAdded();
 }
+
+final class TodoListDeleted extends TodoListEvent {
+  const TodoListDeleted({required this.todoList});
+
+  final TodoList todoList;
+
+  @override
+  List<Object> get props => [todoList];
+}
+
+final class TodoListUndoDelete extends TodoListEvent {
+  const TodoListUndoDelete();
+}

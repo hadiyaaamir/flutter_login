@@ -53,7 +53,7 @@ class TodoOverviewView extends StatelessWidget {
         ],
         child: const TodosList(),
       ),
-      floatingActionButton: _AddTodoButton(),
+      floatingActionButton: const _AddTodoButton(),
     );
   }
 }

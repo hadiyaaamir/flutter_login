@@ -27,14 +27,28 @@ class _NonEmptyList extends StatelessWidget {
   Widget build(BuildContext context) {
     List todoLists =
         context.select((TodoListBloc bloc) => bloc.state.todoLists);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: ListView.builder(
-        itemCount: todoLists.length,
-        itemBuilder: (context, index) =>
-            ListListTile(todoList: todoLists[index]),
-      ),
-    );
+
+    final TodoListStatus status =
+        context.select((TodoListBloc bloc) => bloc.state.status);
+
+    return status == TodoListStatus.loading
+        ? const Center(child: CircularProgressIndicator())
+        : Scrollbar(
+            radius: const Radius.circular(20),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: ListView.builder(
+                itemCount: todoLists.length,
+                itemBuilder: (context, index) => ListListTile(
+                    todoList: todoLists[index],
+                    onDismissed: (_) {
+                      context
+                          .read<TodoListBloc>()
+                          .add(TodoListDeleted(todoList: todoLists[index]));
+                    }),
+              ),
+            ),
+          );
   }
 }
 
