@@ -35,15 +35,26 @@ class ToDoRepositoryFirebase extends TodoRepository {
   }
 
   @override
-  Future<void> deleteTodo(String id) async {
-    final todoFirestore = await todoCollection.where('id', isEqualTo: id).get();
+  Future<void> saveTodoList(TodoList todoList) async {
+    await todoListCollection.doc(todoList.id).set(todoList);
+  }
 
-    if (todoFirestore.docs.isEmpty) {
-      throw TodoNotFoundException();
-    } else {
-      final todoFirestoreId = todoFirestore.docs[0].reference.id;
-      await todoCollection.doc(todoFirestoreId).delete();
-    }
+  @override
+  Future<void> deleteTodo(String id) async {
+    final todoFirestore = await todoCollection.doc(id).get();
+
+    todoFirestore.exists
+        ? await todoCollection.doc(id).delete()
+        : throw TodoNotFoundException();
+  }
+
+  @override
+  Future<void> deleteTodoList(String id) async {
+    final todoListFirestore = await todoListCollection.doc(id).get();
+
+    todoListFirestore.exists
+        ? await todoListCollection.doc(id).delete()
+        : throw TodoListNotFoundException();
   }
 
   @override

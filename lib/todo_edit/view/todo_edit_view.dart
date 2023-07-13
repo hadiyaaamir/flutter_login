@@ -5,7 +5,6 @@ class TodoEditView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final status = context.select((TodoEditBloc bloc) => bloc.state.status);
     final isNewTodo = context.select(
       (TodoEditBloc bloc) => bloc.state.isNewTodo,
     );
@@ -22,8 +21,6 @@ class TodoEditView extends StatelessWidget {
             _TitleInput(),
             SizedBox(height: 20),
             _DescriptionInput(),
-            // SizedBox(height: 40),
-            // _EditTodoButton(),
           ]),
         ),
       ),
