@@ -7,19 +7,24 @@ class ListListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        title: Text(
-          todoList.title,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        subtitle: Text(
-          'Created on: ${todoList.dateCreated}',
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
-        onTap: () => Navigator.push(
-          context,
-          TodoOverviewPage.route(todoList: todoList),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Card(
+        child: ListTile(
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+          title: Text(
+            todoList.title,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          subtitle: Text(
+            'Created on: ${todoList.dateCreated}',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          onTap: () => Navigator.push(
+            context,
+            TodoOverviewPage.route(todoList: todoList),
+          ),
         ),
       ),
     );

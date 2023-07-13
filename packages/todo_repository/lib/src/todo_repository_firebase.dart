@@ -16,6 +16,7 @@ class ToDoRepositoryFirebase extends TodoRepository {
   Stream<List<TodoList>> getTodoLists({required String userId}) {
     return todoListCollection
         .where('userId', isEqualTo: userId)
+        .orderBy('dateCreated')
         .snapshots()
         .map((snapshot) => snapshot.docs.map((e) => e.data()).toList());
   }

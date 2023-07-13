@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:form_inputs/form_inputs.dart';
 import 'package:todo_repository/todo_repository.dart';
 
 part 'todo_list_event.dart';
@@ -16,6 +17,7 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
         super(const TodoListState()) {
     on<TodoListSubscriptionRequested>(_onSubscriptionRequested);
     on<TodoListAdded>(_onListAdded);
+    on<TodoListTitleChanged>(_onTitleChanged);
   }
 
   final TodoRepository _todoRepository;
@@ -45,7 +47,7 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
   ) async {
     emit(state.copyWith(status: () => TodoListStatus.loading));
 
-    final todoList = (TodoList(userId: _userId, title: ''));
+    final todoList = (TodoList(userId: _userId, title: state.title.value));
 
     try {
       await _todoRepository.saveTodoList(todoList);
@@ -53,5 +55,15 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
     } catch (e) {
       emit(state.copyWith(status: () => TodoListStatus.failure));
     }
+  }
+
+  Future<void> _onTitleChanged(
+    TodoListTitleChanged event,
+    Emitter<TodoListState> emit,
+  ) async {
+    final title = StringInput.dirty(value: event.title, allowEmpty: true);
+    emit(
+      state.copyWith(title: title),
+    );
   }
 }

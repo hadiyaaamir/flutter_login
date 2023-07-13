@@ -30,10 +30,17 @@ class _AddTodoListButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final todoListBloc = BlocProvider.of<TodoListBloc>(context);
+
     return BlocBuilder<TodoListBloc, TodoListState>(
       builder: (context, state) {
         return FloatingActionIconButton(
-            isVisible: state.todoLists.isNotEmpty, onPressed: () {});
+          isVisible: state.todoLists.isNotEmpty,
+          onPressed: () => showDialog(
+            context: context,
+            builder: (context) => AddListDialog(todoListBloc: todoListBloc),
+          ),
+        );
       },
     );
   }

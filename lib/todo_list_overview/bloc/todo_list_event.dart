@@ -11,6 +11,15 @@ final class TodoListSubscriptionRequested extends TodoListEvent {
   const TodoListSubscriptionRequested();
 }
 
+final class TodoListTitleChanged extends TodoListEvent {
+  const TodoListTitleChanged({required this.title});
+
+  final String title;
+
+  @override
+  List<Object> get props => [title];
+}
+
 final class TodoListAdded extends TodoListEvent {
   const TodoListAdded();
 }

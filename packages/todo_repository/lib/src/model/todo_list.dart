@@ -2,7 +2,7 @@ part of 'model.dart';
 
 class TodoList extends Equatable {
   TodoList({
-    required this.title,
+    String title = '',
     required this.userId,
     String? id,
     DateTime? dateCreated,
@@ -11,6 +11,7 @@ class TodoList extends Equatable {
           'id must either be null or not empty',
         ),
         dateCreated = dateCreated ?? DateTime.now(),
+        title = title.isEmpty ? DateTime.now().toString() : title,
         id = id ?? const Uuid().v4();
 
   final String id;

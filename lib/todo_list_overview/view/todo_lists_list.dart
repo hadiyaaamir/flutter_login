@@ -43,6 +43,7 @@ class _EmptyList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final todoListBloc = BlocProvider.of<TodoListBloc>(context);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -52,7 +53,10 @@ class _EmptyList extends StatelessWidget {
           Button(
             label: 'Create List',
             width: 130,
-            onPressed: () {},
+            onPressed: () => showDialog(
+              context: context,
+              builder: (context) => AddListDialog(todoListBloc: todoListBloc),
+            ),
           )
         ],
       ),
