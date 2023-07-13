@@ -1,4 +1,4 @@
-import 'package:formz/formz.dart';
+part of 'models.dart';
 
 enum EmailValidationError { empty, invalid }
 

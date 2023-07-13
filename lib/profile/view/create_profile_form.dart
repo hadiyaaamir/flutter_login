@@ -50,8 +50,9 @@ class _FirstNameInput extends StatelessWidget {
         return CustomTextField(
           key: const Key('profileForm_firstNameInput_textField'),
           label: 'First Name',
-          errorText:
-              state.firstName.displayError != null ? 'invalid name' : null,
+          errorText: state.firstName.displayError != null
+              ? 'field cannot be empty'
+              : null,
           onChanged: (firstName) => context
               .read<ProfileBloc>()
               .add(ProfileFirstNameChanged(firstName)),
@@ -72,8 +73,9 @@ class _LastNameInput extends StatelessWidget {
         return CustomTextField(
           key: const Key('profileForm_lastNameInput_textField'),
           label: 'Last Name',
-          errorText:
-              state.lastName.displayError != null ? 'invalid name' : null,
+          errorText: state.lastName.displayError != null
+              ? 'field cannot be empty'
+              : null,
           onChanged: (lastName) =>
               context.read<ProfileBloc>().add(ProfileLastNameChanged(lastName)),
         );
@@ -95,7 +97,7 @@ class _DesignationInput extends StatelessWidget {
           key: const Key('profileForm_designationInput_textField'),
           label: 'Designation',
           errorText: state.designation.displayError != null
-              ? 'invalid designation'
+              ? 'field cannot be empty'
               : null,
           onChanged: (designation) => context
               .read<ProfileBloc>()

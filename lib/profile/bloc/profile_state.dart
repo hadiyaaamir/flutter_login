@@ -3,23 +3,23 @@ part of 'profile_bloc.dart';
 final class ProfileState extends Equatable {
   const ProfileState({
     this.status = FormzSubmissionStatus.initial,
-    this.firstName = const Name.pure(),
-    this.lastName = const Name.pure(),
-    this.designation = const Designation.pure(),
+    this.firstName = const StringInput.pure(),
+    this.lastName = const StringInput.pure(),
+    this.designation = const StringInput.pure(),
     this.isValid = false,
   });
 
   final FormzSubmissionStatus status;
-  final Name firstName;
-  final Name lastName;
-  final Designation designation;
+  final StringInput firstName;
+  final StringInput lastName;
+  final StringInput designation;
   final bool isValid;
 
   ProfileState copyWith({
     FormzSubmissionStatus? status,
-    Name? firstName,
-    Name? lastName,
-    Designation? designation,
+    StringInput? firstName,
+    StringInput? lastName,
+    StringInput? designation,
     bool? isValid,
   }) {
     return ProfileState(
