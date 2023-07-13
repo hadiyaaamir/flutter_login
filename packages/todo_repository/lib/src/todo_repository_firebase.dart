@@ -7,10 +7,23 @@ class ToDoRepositoryFirebase extends TodoRepository {
             toFirestore: (value, _) => value.toJson(),
           );
 
-  @override
-  Stream<List<Todo>> getTodos(String userId) {
-    return todoCollection
+  final todoListCollection =
+      FirebaseFirestore.instance.collection("ToDoList").withConverter(
+            fromFirestore: (snapshot, _) => TodoList.fromJson(snapshot.data()!),
+            toFirestore: (value, _) => value.toJson(),
+          );
+
+  Stream<List<TodoList>> getTodoLists({required String userId}) {
+    return todoListCollection
         .where('userId', isEqualTo: userId)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((e) => e.data()).toList());
+  }
+
+  @override
+  Stream<List<Todo>> getTodos({required String listId}) {
+    return todoCollection
+        .where('listId', isEqualTo: listId)
         .orderBy('isCompleted')
         .snapshots()
         .map((snapshot) => snapshot.docs.map((e) => e.data()).toList());

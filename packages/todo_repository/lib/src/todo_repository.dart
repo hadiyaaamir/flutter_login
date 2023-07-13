@@ -7,7 +7,9 @@ part 'todo_repository_firebase.dart';
 abstract class TodoRepository {
   const TodoRepository();
 
-  Stream<List<Todo>> getTodos(String userId);
+  Stream<List<TodoList>> getTodoLists({required String userId});
+
+  Stream<List<Todo>> getTodos({required String listId});
 
   Future<void> saveTodo(Todo todo);
 

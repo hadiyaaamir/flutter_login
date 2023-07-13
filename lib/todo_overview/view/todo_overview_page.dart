@@ -11,7 +11,8 @@ class TodoOverviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => TodoOverviewBloc(
-        userId: context.read<AuthenticationRepository>().currentAuthUser!.uid,
+        //TODO: change to listid
+        listId: context.read<AuthenticationRepository>().currentAuthUser!.uid,
         todoRepository: context.read<TodoRepository>(),
       )..add(const TodoOverviewSubscriptionRequested()),
       child: const TodoOverviewView(),

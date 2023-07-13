@@ -9,7 +9,8 @@ class TodoEditPage extends StatelessWidget {
       builder: (context) => BlocProvider(
         create: (context) => TodoEditBloc(
           todoRepository: context.read<TodoRepository>(),
-          userId: context.read<AuthenticationRepository>().currentAuthUser!.uid,
+          //TODO: put list id here
+          listId: context.read<AuthenticationRepository>().currentAuthUser!.uid,
           todo: todo,
         ),
         child: const TodoEditPage(),

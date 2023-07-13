@@ -11,9 +11,9 @@ part 'todo_overview_state.dart';
 class TodoOverviewBloc extends Bloc<TodoOverviewEvent, TodoOverviewState> {
   TodoOverviewBloc({
     required TodoRepository todoRepository,
-    required String userId,
+    required String listId,
   })  : _todoRepository = todoRepository,
-        _userId = userId,
+        _listId = listId,
         super(const TodoOverviewState()) {
     on<TodoOverviewSubscriptionRequested>(_onSubscriptionRequested);
     on<TodoOverviewCompletionToggled>(_onTodoCompletionToggled);
@@ -25,7 +25,7 @@ class TodoOverviewBloc extends Bloc<TodoOverviewEvent, TodoOverviewState> {
   }
 
   final TodoRepository _todoRepository;
-  final String _userId;
+  final String _listId;
 
   Future<void> _onSubscriptionRequested(
     TodoOverviewSubscriptionRequested event,
@@ -34,7 +34,7 @@ class TodoOverviewBloc extends Bloc<TodoOverviewEvent, TodoOverviewState> {
     emit(state.copyWith(status: () => TodosOverviewStatus.loading));
 
     await emit.forEach<List<Todo>>(
-      _todoRepository.getTodos(_userId),
+      _todoRepository.getTodos(listId: _listId),
       onData: (todos) => state.copyWith(
         status: () => TodosOverviewStatus.success,
         todos: () => todos,
