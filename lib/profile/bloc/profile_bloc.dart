@@ -77,7 +77,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
                 user: User(
                   firstName: state.firstName.value,
                   lastName: state.lastName.value,
-                  email: _authenticationRepository.currentAuthUser!.email!,
+                  email: _authenticationRepository.currentAuthUser!.email,
                   designation: state.designation.value,
                 ))
             .then((value) =>

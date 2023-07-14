@@ -51,13 +51,37 @@ class AuthenticationBloc
 
       case AuthenticationStatus.authenticated:
         final authUser = _authenticationRepository.currentAuthUser;
+        final profileCreated = await _getUserProfileCreated(authUser: authUser);
+
         print('authenticated user: $authUser');
         return emit(
           authUser != null
-              ? AuthenticationState.authenticated(authUser)
+              ? AuthenticationState.authenticated(
+                  user: authUser, profileCreated: profileCreated)
               : const AuthenticationState.unauthenticated(),
         );
     }
+  }
+
+  Future<bool> _getProfileCreated(AuthUser? authUser) async {
+    if (authUser == null) return false;
+    try {
+      return await _userRepository.userProfileCreated(
+        userId: authUser.id,
+        email: authUser.email,
+      );
+    } catch (_) {
+      return false;
+    }
+  }
+
+  _getUserProfileCreated({AuthUser? authUser}) async {
+    return authUser == null
+        ? false
+        : await _userRepository.userProfileCreated(
+            email: authUser.email,
+            userId: authUser.id,
+          );
   }
 
   void _onAuthenticationLogoutRequested(
@@ -76,7 +100,7 @@ class AuthenticationBloc
 
     return emit(
       user != null
-          ? AuthenticationState.authenticated(user)
+          ? AuthenticationState.authenticated(user: user)
           : const AuthenticationState.unauthenticated(),
     );
   }

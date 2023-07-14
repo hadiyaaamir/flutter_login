@@ -22,6 +22,12 @@ class UserRepositoryFirebase extends UserRepository {
     return _user!;
   }
 
+  Future<bool> userProfileCreated(
+      {required String userId, required String email}) async {
+    final user = await getUser(email: email, userId: userId);
+    return user != User.empty.copyWith(email: email);
+  }
+
   Future<void> createUser({required String userId, required User user}) async {
     await usersCollection
         .doc(userId)

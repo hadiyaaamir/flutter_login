@@ -34,4 +34,11 @@ class UserRepositoryHardcoded extends UserRepository {
     // TODO: implement createUser
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> userProfileCreated(
+      {required String userId, required String email}) {
+    // TODO: implement userProfileCreated
+    throw UnimplementedError();
+  }
 }

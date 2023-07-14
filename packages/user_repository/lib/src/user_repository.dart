@@ -7,6 +7,7 @@ abstract class UserRepository {
   Future<User> getUser({String? userId, String? email});
   Future<void> updateUser({required String userId, required User user});
   Future<void> createUser({required String userId, required User user});
-
+  Future<bool> userProfileCreated(
+      {required String userId, required String email});
   void resetUser();
 }
