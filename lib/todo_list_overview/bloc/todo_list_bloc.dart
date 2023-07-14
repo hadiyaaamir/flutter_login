@@ -49,13 +49,18 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
   ) async {
     emit(state.copyWith(status: () => TodoListStatus.loading));
 
-    final todoList = (TodoList(userId: _userId, title: state.title.value));
+    final todoList = (event.todoList ?? TodoList(userId: _userId))
+        .copyWith(title: state.title.value);
 
     try {
       await _todoRepository.saveTodoList(todoList);
-      emit(state.copyWith(status: () => TodoListStatus.success));
+      emit(state.copyWith(
+          status: () => TodoListStatus.success,
+          title: const StringInput.pure()));
     } catch (e) {
-      emit(state.copyWith(status: () => TodoListStatus.failure));
+      emit(state.copyWith(
+          status: () => TodoListStatus.failure,
+          title: const StringInput.pure()));
     }
   }
 
