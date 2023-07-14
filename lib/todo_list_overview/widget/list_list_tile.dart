@@ -16,6 +16,8 @@ class ListListTile extends StatelessWidget {
         ? ''
         : '${((todoList.completedItems.toDouble() / totalItems.toDouble()) * 100).toStringAsFixed(1)}%';
 
+    final todoListBloc = BlocProvider.of<TodoListBloc>(context);
+
     return Dismissible(
       key: Key('todoListListTile_dismissible_${todoList.id}'),
       onDismissed: status == TodoListStatus.loading ? null : onDismissed,
@@ -59,6 +61,13 @@ class ListListTile extends StatelessWidget {
             onTap: () => Navigator.push(
               context,
               TodoOverviewPage.route(todoList: todoList),
+            ),
+            trailing: IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () => showDialog(
+                context: context,
+                builder: (context) => AddListDialog(todoListBloc: todoListBloc),
+              ),
             ),
           ),
         ),
