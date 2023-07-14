@@ -7,10 +7,24 @@ class ToDoRepositoryFirebase extends TodoRepository {
             toFirestore: (value, _) => value.toJson(),
           );
 
-  @override
-  Stream<List<Todo>> getTodos(String userId) {
-    return todoCollection
+  final todoListCollection =
+      FirebaseFirestore.instance.collection("ToDoList").withConverter(
+            fromFirestore: (snapshot, _) => TodoList.fromJson(snapshot.data()!),
+            toFirestore: (value, _) => value.toJson(),
+          );
+
+  Stream<List<TodoList>> getTodoLists({required String userId}) {
+    return todoListCollection
         .where('userId', isEqualTo: userId)
+        .orderBy('dateCreated', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((e) => e.data()).toList());
+  }
+
+  @override
+  Stream<List<Todo>> getTodos({required String listId}) {
+    return todoCollection
+        .where('listId', isEqualTo: listId)
         .orderBy('isCompleted')
         .snapshots()
         .map((snapshot) => snapshot.docs.map((e) => e.data()).toList());
@@ -22,15 +36,26 @@ class ToDoRepositoryFirebase extends TodoRepository {
   }
 
   @override
-  Future<void> deleteTodo(String id) async {
-    final todoFirestore = await todoCollection.where('id', isEqualTo: id).get();
+  Future<void> saveTodoList(TodoList todoList) async {
+    await todoListCollection.doc(todoList.id).set(todoList);
+  }
 
-    if (todoFirestore.docs.isEmpty) {
-      throw TodoNotFoundException();
-    } else {
-      final todoFirestoreId = todoFirestore.docs[0].reference.id;
-      await todoCollection.doc(todoFirestoreId).delete();
-    }
+  @override
+  Future<void> deleteTodo(String id) async {
+    final todoFirestore = await todoCollection.doc(id).get();
+
+    todoFirestore.exists
+        ? await todoCollection.doc(id).delete()
+        : throw TodoNotFoundException();
+  }
+
+  @override
+  Future<void> deleteTodoList(String id) async {
+    final todoListFirestore = await todoListCollection.doc(id).get();
+
+    todoListFirestore.exists
+        ? await todoListCollection.doc(id).delete()
+        : throw TodoListNotFoundException();
   }
 
   @override

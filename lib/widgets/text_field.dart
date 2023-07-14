@@ -35,6 +35,7 @@ class CustomTextField extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
+        alignLabelWithHint: true,
       ),
     );
   }

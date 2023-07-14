@@ -1,7 +1,7 @@
 part of 'view.dart';
 
-class TodoList extends StatelessWidget {
-  const TodoList({super.key});
+class TodosList extends StatelessWidget {
+  const TodosList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +39,9 @@ class _NonEmptyList extends StatelessWidget {
     final TodosOverviewStatus status =
         context.select((TodoOverviewBloc bloc) => bloc.state.status);
 
+    final TodoList todoList =
+        context.select((TodoOverviewBloc bloc) => bloc.todoList);
+
     return Expanded(
       child: status == TodosOverviewStatus.loading
           ? const Center(child: CircularProgressIndicator())
@@ -54,7 +57,9 @@ class _NonEmptyList extends StatelessWidget {
                         todo: todo,
                         onTap: () {
                           Navigator.push(
-                              context, TodoEditPage.route(todo: todo));
+                            context,
+                            TodoEditPage.route(todo: todo, todoList: todoList),
+                          );
                         },
                         onDismissed: (_) {
                           context
@@ -82,6 +87,9 @@ class _EmptyList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TodoList todoList =
+        context.select((TodoOverviewBloc bloc) => bloc.todoList);
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -92,7 +100,7 @@ class _EmptyList extends StatelessWidget {
             label: 'Add To Do',
             width: 130,
             onPressed: () {
-              Navigator.push(context, TodoEditPage.route());
+              Navigator.push(context, TodoEditPage.route(todoList: todoList));
             },
           )
         ],

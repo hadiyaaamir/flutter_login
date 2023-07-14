@@ -1,22 +1,19 @@
 part of 'view.dart';
 
-class TodoOverviewView extends StatelessWidget {
-  const TodoOverviewView({super.key});
+class TodoListView extends StatelessWidget {
+  const TodoListView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final String title =
-        context.select((TodoOverviewBloc bloc) => bloc.todoList.title);
-
     return Scaffold(
-      appBar: CustomAppBar(title: title, profileButton: true),
+      appBar: const CustomAppBar(title: 'To Do Lists', profileButton: true),
       body: MultiBlocListener(
         listeners: [
-          BlocListener<TodoOverviewBloc, TodoOverviewState>(
+          BlocListener<TodoListBloc, TodoListState>(
             listenWhen: (previous, current) =>
                 previous.status != current.status,
             listener: (context, state) {
-              if (state.status == TodosOverviewStatus.failure) {
+              if (state.status == TodoListStatus.failure) {
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(
@@ -25,12 +22,12 @@ class TodoOverviewView extends StatelessWidget {
               }
             },
           ),
-          BlocListener<TodoOverviewBloc, TodoOverviewState>(
+          BlocListener<TodoListBloc, TodoListState>(
             listenWhen: (previous, current) =>
-                previous.lastDeletedTodo != current.lastDeletedTodo &&
-                current.lastDeletedTodo != null,
+                previous.lastDeletedList != current.lastDeletedList &&
+                current.lastDeletedList != null,
             listener: (context, state) {
-              final deletedTodo = state.lastDeletedTodo!;
+              final deletedTodo = state.lastDeletedList!;
               final messenger = ScaffoldMessenger.of(context);
               messenger
                 ..hideCurrentSnackBar()
@@ -42,8 +39,8 @@ class TodoOverviewView extends StatelessWidget {
                       onPressed: () {
                         messenger.hideCurrentSnackBar();
                         context
-                            .read<TodoOverviewBloc>()
-                            .add(const TodoOverviewUndoDelete());
+                            .read<TodoListBloc>()
+                            .add(const TodoListUndoDelete());
                       },
                     ),
                   ),
@@ -51,27 +48,28 @@ class TodoOverviewView extends StatelessWidget {
             },
           ),
         ],
-        child: const TodosList(),
+        child: const TodoListsList(),
       ),
-      floatingActionButton: const _AddTodoButton(),
+      floatingActionButton: const _AddTodoListButton(),
     );
   }
 }
 
-class _AddTodoButton extends StatelessWidget {
-  const _AddTodoButton();
+class _AddTodoListButton extends StatelessWidget {
+  const _AddTodoListButton();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TodoOverviewBloc, TodoOverviewState>(
-      builder: (context, state) {
-        final TodoList todoList =
-            context.select((TodoOverviewBloc bloc) => bloc.todoList);
+    final todoListBloc = BlocProvider.of<TodoListBloc>(context);
 
+    return BlocBuilder<TodoListBloc, TodoListState>(
+      builder: (context, state) {
         return FloatingActionIconButton(
-          isVisible: state.todos.isNotEmpty,
-          onPressed: () =>
-              Navigator.push(context, TodoEditPage.route(todoList: todoList)),
+          isVisible: state.todoLists.isNotEmpty,
+          onPressed: () => showDialog(
+            context: context,
+            builder: (context) => AddListDialog(todoListBloc: todoListBloc),
+          ),
         );
       },
     );

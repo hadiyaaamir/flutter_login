@@ -1,18 +1,20 @@
 part of 'view.dart';
 
 class TodoEditPage extends StatelessWidget {
-  const TodoEditPage({super.key});
+  const TodoEditPage({super.key, required this.todoList});
 
-  static Route<void> route({Todo? todo}) {
+  final TodoList todoList;
+
+  static Route<void> route({Todo? todo, required TodoList todoList}) {
     return MaterialPageRoute(
       fullscreenDialog: true,
       builder: (context) => BlocProvider(
         create: (context) => TodoEditBloc(
           todoRepository: context.read<TodoRepository>(),
-          userId: context.read<AuthenticationRepository>().currentAuthUser!.uid,
+          todoList: todoList,
           todo: todo,
         ),
-        child: const TodoEditPage(),
+        child: TodoEditPage(todoList: todoList),
       ),
     );
   }
