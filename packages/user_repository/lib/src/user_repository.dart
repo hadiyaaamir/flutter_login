@@ -4,7 +4,7 @@ part 'user_hardcoded.dart';
 part 'user_firebase.dart';
 
 abstract class UserRepository {
-  Future<User?> getUser({String? userId, String? email});
+  Future<User> getUser({String? userId, String? email});
   Future<void> updateUser({required String userId, required User user});
   Future<void> createUser({required String userId, required User user});
 

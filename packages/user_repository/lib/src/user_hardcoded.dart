@@ -3,8 +3,8 @@ part of 'user_repository.dart';
 class UserRepositoryHardcoded extends UserRepository {
   User? _user;
 
-  Future<User?> getUser({String? userId, String? email}) async {
-    if (_user != null) return _user;
+  Future<User> getUser({String? userId, String? email}) async {
+    if (_user != null) return _user!;
 
     return Future.delayed(
       const Duration(milliseconds: 300),

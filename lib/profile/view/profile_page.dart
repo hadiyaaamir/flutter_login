@@ -6,8 +6,18 @@ class ProfilePage extends StatelessWidget {
     return MaterialPageRoute<void>(builder: (_) => const ProfilePage());
   }
 
+  getUser() {}
+
   @override
   Widget build(BuildContext context) {
+    final authUser = context.select(
+      (AuthenticationBloc bloc) => bloc.state.user,
+    );
+
+    final userFuture = context
+        .read<UserRepository>()
+        .getUser(userId: authUser.id, email: authUser.email);
+
     return Scaffold(
       appBar: const CustomAppBar(title: 'Profile'),
       body: Center(
@@ -16,30 +26,39 @@ class ProfilePage extends StatelessWidget {
           children: [
             Builder(
               builder: (context) {
-                final firstName = context.select(
-                  (AuthenticationBloc bloc) => bloc.state.user.firstName,
-                );
-                final lastName = context.select(
-                  (AuthenticationBloc bloc) => bloc.state.user.lastName,
-                );
-                final email = context.select(
-                  (AuthenticationBloc bloc) => bloc.state.user.email,
-                );
-                final designation = context.select(
-                  (AuthenticationBloc bloc) => bloc.state.user.designation,
-                );
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50.0),
                   child: Column(
                     children: [
-                      ProfileInformation(
-                        title: 'Name',
-                        information: '$firstName $lastName',
-                      ),
-                      ProfileInformation(title: 'Email', information: email),
-                      ProfileInformation(
-                        title: 'Designation',
-                        information: designation,
+                      FutureBuilder<User>(
+                        future: userFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const CircularProgressIndicator();
+                          } else if (snapshot.hasData) {
+                            final user = snapshot.data!;
+                            return Column(
+                              children: [
+                                ProfileInformation(
+                                  title: 'Name',
+                                  information:
+                                      '${user.firstName} ${user.lastName}',
+                                ),
+                                ProfileInformation(
+                                    title: 'Email', information: user.email),
+                                ProfileInformation(
+                                  title: 'Designation',
+                                  information: user.designation,
+                                ),
+                              ],
+                            );
+                          } else if (snapshot.hasError) {
+                            return const Text('Error loading user data');
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
                       ),
                     ],
                   ),

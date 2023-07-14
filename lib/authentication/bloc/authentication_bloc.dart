@@ -50,25 +50,13 @@ class AuthenticationBloc
         return emit(const AuthenticationState.unauthenticated());
 
       case AuthenticationStatus.authenticated:
-        final user = await _tryGetUser();
-        print('authenticated user: $user');
+        final authUser = _authenticationRepository.currentAuthUser;
+        print('authenticated user: $authUser');
         return emit(
-          user != null
-              ? AuthenticationState.authenticated(user)
+          authUser != null
+              ? AuthenticationState.authenticated(authUser)
               : const AuthenticationState.unauthenticated(),
         );
-    }
-  }
-
-  Future<User?> _tryGetUser() async {
-    try {
-      final user = await _userRepository.getUser(
-        userId: _authenticationRepository.currentAuthUser?.id,
-        email: _authenticationRepository.currentAuthUser?.email,
-      );
-      return user;
-    } catch (_) {
-      return null;
     }
   }
 
@@ -84,7 +72,8 @@ class AuthenticationBloc
     AuthenticationUserChanged event,
     Emitter<AuthenticationState> emit,
   ) async {
-    final user = await _tryGetUser();
+    final user = _authenticationRepository.currentAuthUser;
+
     return emit(
       user != null
           ? AuthenticationState.authenticated(user)
