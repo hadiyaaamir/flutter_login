@@ -21,7 +21,9 @@ final class TodoListTitleChanged extends TodoListEvent {
 }
 
 final class TodoListAdded extends TodoListEvent {
-  const TodoListAdded();
+  const TodoListAdded({this.todoList});
+
+  final TodoList? todoList;
 }
 
 final class TodoListDeleted extends TodoListEvent {
