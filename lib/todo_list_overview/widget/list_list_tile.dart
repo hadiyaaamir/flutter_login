@@ -11,6 +11,11 @@ class ListListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final status = context.read<TodoListBloc>().state.status;
 
+    final totalItems = todoList.activeItems + todoList.completedItems;
+    final String progress = totalItems == 0
+        ? ''
+        : '${((todoList.completedItems.toDouble() / totalItems.toDouble()) * 100).toStringAsFixed(1)}%';
+
     return Dismissible(
       key: Key('todoListListTile_dismissible_${todoList.id}'),
       onDismissed: status == TodoListStatus.loading ? null : onDismissed,
@@ -31,9 +36,25 @@ class ListListTile extends StatelessWidget {
               todoList.title,
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            subtitle: Text(
-              'Created on: ${todoList.dateCreated}',
-              style: Theme.of(context).textTheme.bodySmall,
+            subtitle: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  totalItems == 0
+                      ? 'No items in list'
+                      : 'Completed: ${todoList.completedItems}, '
+                          'Active: ${todoList.activeItems}',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                if (totalItems != 0)
+                  Text(
+                    'Progress: $progress',
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelMedium!
+                        .copyWith(color: Theme.of(context).colorScheme.primary),
+                  )
+              ],
             ),
             onTap: () => Navigator.push(
               context,

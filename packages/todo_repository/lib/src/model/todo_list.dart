@@ -6,6 +6,8 @@ class TodoList extends Equatable {
     required this.userId,
     String? id,
     DateTime? dateCreated,
+    this.completedItems = 0,
+    this.activeItems = 0,
   })  : assert(
           id == null || id.isNotEmpty,
           'id must either be null or not empty',
@@ -18,18 +20,24 @@ class TodoList extends Equatable {
   final String userId;
   final String title;
   final DateTime dateCreated;
+  final int completedItems;
+  final int activeItems;
 
   TodoList copyWith({
     String? id,
     String? userId,
     String? title,
     DateTime? dateCreated,
+    int? completedItems,
+    int? activeItems,
   }) {
     return TodoList(
       id: id ?? this.id,
       userId: userId ?? this.userId,
       title: title ?? this.title,
       dateCreated: dateCreated ?? this.dateCreated,
+      completedItems: completedItems ?? this.completedItems,
+      activeItems: activeItems ?? this.activeItems,
     );
   }
 
@@ -38,6 +46,8 @@ class TodoList extends Equatable {
         id: json['id'] as String?,
         userId: json['userId'] as String,
         dateCreated: json['dateCreated'].toDate(),
+        completedItems: json['completedItems'] as int,
+        activeItems: json['activeItems'] as int,
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -45,8 +55,11 @@ class TodoList extends Equatable {
         'userId': userId,
         'title': title,
         'dateCreated': dateCreated,
+        'completedItems': completedItems,
+        'activeItems': activeItems,
       };
 
   @override
-  List<Object> get props => [id, title, dateCreated];
+  List<Object> get props =>
+      [id, title, dateCreated, userId, completedItems, activeItems];
 }

@@ -50,6 +50,14 @@ class TodoOverviewBloc extends Bloc<TodoOverviewEvent, TodoOverviewState> {
   ) async {
     final newTodo = event.todo.copyWith(isCompleted: event.isCompleted);
     await _todoRepository.saveTodo(newTodo);
+
+    if (event.isCompleted) {
+      await _todoRepository.todoListIncrementCompleted(listId: todoList.id);
+      await _todoRepository.todoListDecrementActive(listId: todoList.id);
+    } else {
+      await _todoRepository.todoListDecrementCompleted(listId: todoList.id);
+      await _todoRepository.todoListIncrementActive(listId: todoList.id);
+    }
   }
 
   Future<void> _onTodoDeleted(
@@ -62,8 +70,15 @@ class TodoOverviewBloc extends Bloc<TodoOverviewEvent, TodoOverviewState> {
         status: () => TodosOverviewStatus.loading,
       ),
     );
+
     try {
       await _todoRepository.deleteTodo(event.todo.id);
+
+      event.todo.isCompleted
+          ? await _todoRepository.todoListDecrementCompleted(
+              listId: todoList.id)
+          : await _todoRepository.todoListDecrementActive(listId: todoList.id);
+
       emit(state.copyWith(status: () => TodosOverviewStatus.success));
     } catch (_) {
       emit(state.copyWith(status: () => TodosOverviewStatus.failure));
@@ -78,6 +93,11 @@ class TodoOverviewBloc extends Bloc<TodoOverviewEvent, TodoOverviewState> {
       final deletedTodo = state.lastDeletedTodo!;
       emit(state.copyWith(lastDeletedTodo: () => null));
       await _todoRepository.saveTodo(deletedTodo);
+
+      deletedTodo.isCompleted
+          ? await _todoRepository.todoListIncrementCompleted(
+              listId: todoList.id)
+          : await _todoRepository.todoListIncrementActive(listId: todoList.id);
     }
   }
 
@@ -93,13 +113,30 @@ class TodoOverviewBloc extends Bloc<TodoOverviewEvent, TodoOverviewState> {
     Emitter<TodoOverviewState> emit,
   ) async {
     final areAllCompleted = state.todos.every((todo) => todo.isCompleted);
-    await _todoRepository.toggleCompleteAll(isCompleted: !areAllCompleted);
+    int completed = await _todoRepository.toggleCompleteAll(
+        isCompleted: !areAllCompleted, listId: todoList.id);
+
+    if (areAllCompleted) {
+      await _todoRepository.todoListSetCompleted(value: 0, listId: todoList.id);
+      await _todoRepository.todoListSetActive(
+          value: completed, listId: todoList.id);
+    } else {
+      await _todoRepository.todoListSetCompleted(
+          value: completed, listId: todoList.id);
+      await _todoRepository.todoListSetActive(value: 0, listId: todoList.id);
+    }
   }
 
   Future<void> _onClearCompleted(
     TodoOverviewClearCompleted event,
     Emitter<TodoOverviewState> emit,
   ) async {
-    await _todoRepository.clearCompleted();
+    int cleared = await _todoRepository.clearCompleted(listId: todoList.id);
+    await _todoRepository.todoListDecrementCompleted(
+        listId: todoList.id, value: cleared);
+    // final newTodoList = state.todoList.copyWith(
+    //   completedItems: state.todoList.completedItems - cleared,
+    // );
+    // await _todoRepository.saveTodoList(newTodoList);
   }
 }

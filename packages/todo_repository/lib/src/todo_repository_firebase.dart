@@ -59,9 +59,13 @@ class ToDoRepositoryFirebase extends TodoRepository {
   }
 
   @override
-  Future<int> clearCompleted() {
+  Future<int> clearCompleted({required String listId}) {
     final batch = FirebaseFirestore.instance.batch();
-    return todoCollection.where('isCompleted', isEqualTo: true).get().then(
+    return todoCollection
+        .where('listId', isEqualTo: listId)
+        .where('isCompleted', isEqualTo: true)
+        .get()
+        .then(
       (querySnapshot) {
         for (final document in querySnapshot.docs) {
           batch.delete(document.reference);
@@ -73,9 +77,10 @@ class ToDoRepositoryFirebase extends TodoRepository {
   }
 
   @override
-  Future<int> toggleCompleteAll({required bool isCompleted}) async {
+  Future<int> toggleCompleteAll(
+      {required bool isCompleted, required String listId}) async {
     final batch = FirebaseFirestore.instance.batch();
-    return todoCollection.get().then(
+    return todoCollection.where('listId', isEqualTo: listId).get().then(
       (querySnapshot) {
         for (final document in querySnapshot.docs) {
           final toggledTodo =
@@ -86,5 +91,79 @@ class ToDoRepositoryFirebase extends TodoRepository {
         return querySnapshot.docs.length;
       },
     );
+  }
+
+  Future<void> todoListIncrementCompleted(
+      {int value = 1, required String listId}) async {
+    await todoListCollection.doc(listId).get().then((snapshot) {
+      if (snapshot.data() != null) {
+        saveTodoList(
+          snapshot.data()!.copyWith(
+              completedItems: snapshot.data()!.completedItems + value),
+        );
+      }
+    });
+  }
+
+  Future<void> todoListDecrementCompleted(
+      {int value = 1, required String listId}) async {
+    await todoListCollection.doc(listId).get().then((snapshot) {
+      if (snapshot.data() != null) {
+        saveTodoList(
+          snapshot.data()!.copyWith(
+              completedItems: snapshot.data()!.completedItems - value),
+        );
+      }
+    });
+  }
+
+  Future<void> todoListIncrementActive(
+      {int value = 1, required String listId}) async {
+    await todoListCollection.doc(listId).get().then((snapshot) {
+      if (snapshot.data() != null) {
+        saveTodoList(
+          snapshot
+              .data()!
+              .copyWith(activeItems: snapshot.data()!.activeItems + value),
+        );
+      }
+    });
+  }
+
+  Future<void> todoListDecrementActive(
+      {int value = 1, required String listId}) async {
+    await todoListCollection.doc(listId).get().then((snapshot) {
+      if (snapshot.data() != null) {
+        saveTodoList(
+          snapshot
+              .data()!
+              .copyWith(activeItems: snapshot.data()!.activeItems - value),
+        );
+      }
+    });
+  }
+
+  @override
+  Future<void> todoListSetActive(
+      {required int value, required String listId}) async {
+    await todoListCollection.doc(listId).get().then((snapshot) {
+      if (snapshot.data() != null) {
+        saveTodoList(
+          snapshot.data()!.copyWith(activeItems: value),
+        );
+      }
+    });
+  }
+
+  @override
+  Future<void> todoListSetCompleted(
+      {required int value, required String listId}) async {
+    await todoListCollection.doc(listId).get().then((snapshot) {
+      if (snapshot.data() != null) {
+        saveTodoList(
+          snapshot.data()!.copyWith(completedItems: value),
+        );
+      }
+    });
   }
 }

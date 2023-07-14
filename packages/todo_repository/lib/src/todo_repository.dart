@@ -16,8 +16,20 @@ abstract class TodoRepository {
   Future<void> deleteTodoList(String id);
   Future<void> deleteTodo(String id);
 
-  Future<int> clearCompleted();
-  Future<int> toggleCompleteAll({required bool isCompleted});
+  Future<int> clearCompleted({required String listId});
+  Future<int> toggleCompleteAll(
+      {required bool isCompleted, required String listId});
+
+  Future<void> todoListIncrementCompleted(
+      {int value = 1, required String listId});
+  Future<void> todoListDecrementCompleted(
+      {int value = 1, required String listId});
+  Future<void> todoListSetCompleted(
+      {required int value, required String listId});
+
+  Future<void> todoListIncrementActive({int value = 1, required String listId});
+  Future<void> todoListDecrementActive({int value = 1, required String listId});
+  Future<void> todoListSetActive({required int value, required String listId});
 }
 
 class TodoNotFoundException implements Exception {}

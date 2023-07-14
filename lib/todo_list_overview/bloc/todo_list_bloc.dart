@@ -83,7 +83,6 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
       await _todoRepository.deleteTodoList(event.todoList.id);
       emit(state.copyWith(status: () => TodoListStatus.success));
     } catch (e) {
-      print('ohho masla hogaya. $e');
       emit(state.copyWith(status: () => TodoListStatus.failure));
     }
   }
