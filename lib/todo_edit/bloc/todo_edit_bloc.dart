@@ -68,6 +68,8 @@ class TodoEditBloc extends Bloc<TodoEditEvent, TodoEditState> {
   ) async {
     emit(state.copyWith(status: TodoEditStatus.loading));
 
+    bool newTodo = state.todo == null;
+
     final todo = (state.todo ?? Todo(title: '', listId: todoList.id)).copyWith(
       title: state.title.value,
       description: state.description.value,
@@ -75,6 +77,9 @@ class TodoEditBloc extends Bloc<TodoEditEvent, TodoEditState> {
 
     try {
       await _todoRepository.saveTodo(todo);
+      if (newTodo) {
+        await _todoRepository.todoListIncrementActive(listId: todoList.id);
+      }
       emit(state.copyWith(status: TodoEditStatus.success));
     } catch (e) {
       emit(state.copyWith(status: TodoEditStatus.failure));
