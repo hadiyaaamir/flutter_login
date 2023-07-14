@@ -50,26 +50,38 @@ class AuthenticationBloc
         return emit(const AuthenticationState.unauthenticated());
 
       case AuthenticationStatus.authenticated:
-        final user = await _tryGetUser();
-        print('authenticated user: $user');
+        final authUser = _authenticationRepository.currentAuthUser;
+        final profileCreated = await _getUserProfileCreated(authUser: authUser);
+
+        print('authenticated user: $authUser');
         return emit(
-          user != null
-              ? AuthenticationState.authenticated(user)
+          authUser != null
+              ? AuthenticationState.authenticated(
+                  user: authUser, profileCreated: profileCreated)
               : const AuthenticationState.unauthenticated(),
         );
     }
   }
 
-  Future<User?> _tryGetUser() async {
+  Future<bool> _getProfileCreated(AuthUser? authUser) async {
+    if (authUser == null) return false;
     try {
-      final user = await _userRepository.getUser(
-        userId: _authenticationRepository.currentAuthUser?.uid,
-        email: _authenticationRepository.currentAuthUser?.email,
+      return await _userRepository.userProfileCreated(
+        userId: authUser.id,
+        email: authUser.email,
       );
-      return user;
     } catch (_) {
-      return null;
+      return false;
     }
+  }
+
+  _getUserProfileCreated({AuthUser? authUser}) async {
+    return authUser == null
+        ? false
+        : await _userRepository.userProfileCreated(
+            email: authUser.email,
+            userId: authUser.id,
+          );
   }
 
   void _onAuthenticationLogoutRequested(
@@ -84,10 +96,11 @@ class AuthenticationBloc
     AuthenticationUserChanged event,
     Emitter<AuthenticationState> emit,
   ) async {
-    final user = await _tryGetUser();
+    final user = _authenticationRepository.currentAuthUser;
+
     return emit(
       user != null
-          ? AuthenticationState.authenticated(user)
+          ? AuthenticationState.authenticated(user: user)
           : const AuthenticationState.unauthenticated(),
     );
   }

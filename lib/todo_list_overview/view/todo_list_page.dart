@@ -11,7 +11,7 @@ class TodoListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => TodoListBloc(
-        userId: context.read<AuthenticationRepository>().currentAuthUser!.uid,
+        userId: context.read<AuthenticationRepository>().currentAuthUser!.id,
         todoRepository: context.read<TodoRepository>(),
       )..add(const TodoListSubscriptionRequested()),
       child: const TodoListView(),

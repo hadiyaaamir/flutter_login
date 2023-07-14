@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 part 'authentication_hardcoded.dart';
@@ -15,5 +16,5 @@ abstract class AuthenticationRepository {
   void logOut();
   void dispose();
 
-  firebase_auth.User? get currentAuthUser;
+  AuthUser? get currentAuthUser;
 }

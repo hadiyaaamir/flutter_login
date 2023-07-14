@@ -5,8 +5,8 @@ class UserRepositoryFirebase extends UserRepository {
 
   final usersCollection = FirebaseFirestore.instance.collection("Users");
 
-  Future<User?> getUser({String? userId, String? email}) async {
-    if (_user != null) return _user;
+  Future<User> getUser({String? userId, String? email}) async {
+    if (_user != null) return _user!;
 
     if (userId != null) {
       await usersCollection.doc(userId).get().then((snapshot) async {
@@ -16,8 +16,16 @@ class UserRepositoryFirebase extends UserRepository {
           _user = User.empty.copyWith(email: email);
         }
       });
+    } else {
+      _user = User.empty;
     }
-    return _user;
+    return _user!;
+  }
+
+  Future<bool> userProfileCreated(
+      {required String userId, required String email}) async {
+    final user = await getUser(email: email, userId: userId);
+    return user != User.empty.copyWith(email: email);
   }
 
   Future<void> createUser({required String userId, required User user}) async {

@@ -65,7 +65,12 @@ class AuthenticationRepositoryFirebase extends AuthenticationRepository {
   void dispose() => _controller.close();
 
   @override
-  firebase_auth.User? get currentAuthUser => _firebaseAuth.currentUser ?? null;
+  AuthUser? get currentAuthUser => _firebaseAuth.currentUser != null
+      ? AuthUser(
+          id: _firebaseAuth.currentUser!.uid,
+          email: _firebaseAuth.currentUser!.email!,
+        )
+      : null;
 }
 
 class SignUpWithEmailAndPasswordFailure implements Exception {

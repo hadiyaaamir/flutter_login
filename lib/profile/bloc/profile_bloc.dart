@@ -73,11 +73,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       try {
         await _userRepository
             .createUser(
-                userId: _authenticationRepository.currentAuthUser!.uid,
+                userId: _authenticationRepository.currentAuthUser!.id,
                 user: User(
                   firstName: state.firstName.value,
                   lastName: state.lastName.value,
-                  email: _authenticationRepository.currentAuthUser!.email!,
+                  email: _authenticationRepository.currentAuthUser!.email,
                   designation: state.designation.value,
                 ))
             .then((value) =>
