@@ -13,8 +13,9 @@ class AddListDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Add Todo List'),
-      content: TextField(
+      title: Text('${todoList == null ? 'Add' : 'Edit'} To Do List'),
+      content: TextFormField(
+        initialValue: todoList?.title,
         onChanged: (value) {
           todoListBloc.add(TodoListTitleChanged(title: value));
         },
@@ -22,15 +23,15 @@ class AddListDialog extends StatelessWidget {
       ),
       actions: [
         TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
+        TextButton(
           onPressed: () {
             Navigator.pop(context);
             todoListBloc.add(TodoListAdded(todoList: todoList));
           },
-          child: const Text('Add'),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(todoList == null ? 'Add' : 'Edit'),
         ),
       ],
     );

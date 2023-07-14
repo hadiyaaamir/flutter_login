@@ -54,9 +54,13 @@ class TodoListBloc extends Bloc<TodoListEvent, TodoListState> {
 
     try {
       await _todoRepository.saveTodoList(todoList);
-      emit(state.copyWith(status: () => TodoListStatus.success));
+      emit(state.copyWith(
+          status: () => TodoListStatus.success,
+          title: const StringInput.pure()));
     } catch (e) {
-      emit(state.copyWith(status: () => TodoListStatus.failure));
+      emit(state.copyWith(
+          status: () => TodoListStatus.failure,
+          title: const StringInput.pure()));
     }
   }
 
