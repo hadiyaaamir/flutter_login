@@ -92,7 +92,7 @@ class SignUpWithEmailAndPasswordFailure implements Exception {
         );
       case 'email-already-in-use':
         return const SignUpWithEmailAndPasswordFailure(
-          'An account already exists for that email.',
+          'An account already exists for this email.',
         );
       case 'operation-not-allowed':
         return const SignUpWithEmailAndPasswordFailure(

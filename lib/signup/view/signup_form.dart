@@ -77,8 +77,9 @@ class _PasswordInput extends StatelessWidget {
           obsecureText: true,
           key: const Key('loginForm_passwordInput_textField'),
           label: 'Password',
-          errorText:
-              state.password.displayError != null ? 'invalid password' : null,
+          errorText: state.password.displayError != null
+              ? 'password must be atleast 8 characters long'
+              : null,
           onChanged: (password) =>
               context.read<SignupBloc>().add(SignupPasswordChanged(password)),
         );
@@ -96,9 +97,9 @@ class _ConfirmPasswordInput extends StatelessWidget {
       builder: (context, state) {
         return CustomTextField(
           obsecureText: true,
-          key: const Key('loginForm_passwordInput_textField'),
+          key: const Key('loginForm_confirmPasswordInput_textField'),
           label: 'Confirm Password',
-          errorText: state.password.displayError != null
+          errorText: state.confirmedPassword.displayError != null
               ? 'passwords do not match'
               : null,
           onChanged: (confirmPassword) => context

@@ -77,8 +77,9 @@ class _PasswordInput extends StatelessWidget {
           key: const Key('loginForm_passwordInput_textField'),
           label: 'Password',
           obsecureText: true,
-          errorText:
-              state.password.displayError != null ? 'invalid password' : null,
+          errorText: state.password.displayError != null
+              ? 'password must be atleast 8 characters long'
+              : null,
           onChanged: (password) =>
               context.read<LoginBloc>().add(LoginPasswordChanged(password)),
         );

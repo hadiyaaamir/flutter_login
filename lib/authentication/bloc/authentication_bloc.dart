@@ -63,18 +63,6 @@ class AuthenticationBloc
     }
   }
 
-  Future<bool> _getProfileCreated(AuthUser? authUser) async {
-    if (authUser == null) return false;
-    try {
-      return await _userRepository.userProfileCreated(
-        userId: authUser.id,
-        email: authUser.email,
-      );
-    } catch (_) {
-      return false;
-    }
-  }
-
   _getUserProfileCreated({AuthUser? authUser}) async {
     return authUser == null
         ? false
