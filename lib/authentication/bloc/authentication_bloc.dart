@@ -53,7 +53,8 @@ class AuthenticationBloc
         final authUser = _authenticationRepository.currentAuthUser;
         final profileCreated = await _getUserProfileCreated(authUser: authUser);
 
-        print('authenticated user: $authUser');
+        print(
+            'authenticated user: $authUser, profile created? $profileCreated');
         return emit(
           authUser != null
               ? AuthenticationState.authenticated(
@@ -85,10 +86,12 @@ class AuthenticationBloc
     Emitter<AuthenticationState> emit,
   ) async {
     final user = _authenticationRepository.currentAuthUser;
+    final profileCreated = await _getUserProfileCreated(authUser: user);
 
     return emit(
       user != null
-          ? AuthenticationState.authenticated(user: user)
+          ? AuthenticationState.authenticated(
+              user: user, profileCreated: profileCreated)
           : const AuthenticationState.unauthenticated(),
     );
   }
